@@ -1,4 +1,10 @@
-# HashCortex-S9 Architecture (v1, phase 1)
+# HashMind Architecture
+
+Phase 2 (GGUF -> HashMind layer -> readout, weight plan, experiment) is described in
+[PHASE2.md](PHASE2.md). This file covers the phase-1 token-level reservoir design,
+which is still built by `convert` and runnable via `simulate`.
+
+## Phase 1: token reservoir model
 
 ## Hard constraint
 

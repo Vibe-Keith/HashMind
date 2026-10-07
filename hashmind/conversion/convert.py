@@ -1,4 +1,4 @@
-"""GGUF -> .hcmodel conversion."""
+"""GGUF -> .hmmodel conversion."""
 
 from __future__ import annotations
 
@@ -9,13 +9,15 @@ from typing import Any
 
 import numpy as np
 
-from ..architecture.config import HashCortexConfig
-from ..architecture.model import HashCortexParams, rmsnorm
+from ..architecture.config import HashMindConfig
+from ..core.layer import HashMindLayer
+from ..architecture.model import HashMindParams, rmsnorm
 from ..features.hash_layer import TupleWiring
-from ..formats.hcmodel import HCModel
+from ..formats.hmmodel import HMModel
 from ..gguf.inspector import ModelSummary, inspect_gguf
 from ..gguf.reader import GGUFFile, UnsupportedQuantizationError, read_gguf
 from .analysis import analyze
+from .weights import build_weight_plan
 
 _PROJ_SOURCES = re.compile(r"^blk\.(\d+)\.(ffn_up|ffn_gate|attn_v)\.weight$")
 
@@ -66,8 +68,22 @@ def derive_projection(
 def convert(
     gguf_path: str | Path,
     out_path: str | Path | None = None,
+    reduced_dim: int = 32,
+    lowrank_rank: int = 32,
+    lowrank_layers: int | None = None,
+    hm_output_dim: int = 2048,
+    hm_feature_mode: str = "hash_bits",
+    hm_tuple_size: int = 2,
+    hm_levels: int = 4,
+    hm_nonces: int = 16,
     **config_overrides: Any,
-) -> HCModel:
+) -> HMModel:
+    """GGUF -> .hmmodel.
+
+    ``reduced_dim`` .. ``hm_nonces`` control the phase-2 weight plan and the
+    HashMind feature layer; ``config_overrides`` go to the phase-1
+    :class:`HashMindConfig` (token-level reservoir model).
+    """
     g = read_gguf(gguf_path)
     summary: ModelSummary = inspect_gguf(g)
     report = analyze(summary)
@@ -76,11 +92,11 @@ def convert(
     if not g.can_dequantize("token_embd.weight"):
         raise UnsupportedQuantizationError(
             f"token_embd.weight is {g.tensors['token_embd.weight'].type_name}; "
-            "phase 1 supports F32/F16/BF16/Q8_0/Q4_0/Q4_1 embeddings"
+            "install the optional 'gguf' package for IQ* types"
         )
     emb = g.tensor("token_embd.weight")
     vocab, d = emb.shape
-    cfg = HashCortexConfig(hidden_dim=d, vocab_size=vocab, **config_overrides)
+    cfg = HashMindConfig(hidden_dim=d, vocab_size=vocab, **config_overrides)
     cfg.validate()
 
     lm_head = None
@@ -95,7 +111,7 @@ def convert(
     z = rmsnorm(emb, None, cfg.norm_eps) @ P
     center = np.median(z, axis=0).astype(np.float32)
 
-    params = HashCortexParams(
+    params = HashMindParams(
         embedding=emb,
         lm_head=lm_head,
         output_norm=out_norm,
@@ -112,7 +128,19 @@ def convert(
     conversion["projection"] = proj_info
     conversion["readout_trained"] = False
 
-    model = HCModel(cfg, params, TupleWiring.from_config(cfg), source, conversion)
+    plan = build_weight_plan(g, reduced_dim, lowrank_rank, lowrank_layers, seed=cfg.seed)
+    conversion["weights"] = plan.records_dicts()
+    conversion["weights_summary"] = plan.summary()
+
+    layer = HashMindLayer(plan.tensors["transformed/embd_basis"].shape[1], hm_output_dim,
+                          seed=cfg.seed, feature_mode=hm_feature_mode, tuple_size=hm_tuple_size,
+                          levels=hm_levels, nonces_per_node=hm_nonces)
+    layer.fit(plan.tensors["transformed/token_embd_reduced"])
+    extra = dict(plan.tensors)
+    extra["layer/thresholds"] = layer.thresholds  # type: ignore[assignment]
+
+    model = HMModel(cfg, params, TupleWiring.from_config(cfg), source, conversion,
+                    extra, layer.spec.to_dict())
     if out_path is not None:
         model.save(out_path)
     return model

@@ -1,4 +1,4 @@
-"""HashCortex architecture configuration."""
+"""HashMind architecture configuration."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ from typing import Any
 
 
 @dataclass
-class HashCortexConfig:
-    """Hyperparameters of the HashCortex v1 architecture.
+class HashMindConfig:
+    """Hyperparameters of the HashMind v1 architecture.
 
     Data path per token (host = PC, asic = S9 or simulator)::
 
@@ -40,7 +40,7 @@ class HashCortexConfig:
     difficulty_bits: int = 1  # 1 => p(feature=1)=0.5 (idealized); real ticket floor TBD
     reservoir_keep: float = 0.75  # fraction of reservoir bits shifted vs refreshed each step
     seed: int = 0x5EED_C0DE
-    challenge_salt: str = "hashcortex-s9-v1"
+    challenge_salt: str = "hashmind-s9-v1"
     projection_source_layers: int = 4
     ridge_lambda: float = 1e-2
     norm_eps: float = 1e-5
@@ -71,5 +71,5 @@ class HashCortexConfig:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> "HashCortexConfig":
+    def from_dict(cls, d: dict[str, Any]) -> "HashMindConfig":
         return cls(**d)

@@ -2,7 +2,7 @@
 
 Parses the header, metadata key/value store and tensor table, and memory-maps
 tensor data lazily. Dequantization is provided for the types listed in
-``DEQUANTIZABLE_TYPES``; other types can still be inspected (name, shape, type,
+``hashmind.gguf.quants``; other types can still be inspected (name, shape, type,
 byte size) but not materialized.
 """
 
@@ -15,8 +15,9 @@ from typing import Any, BinaryIO
 
 import numpy as np
 
+from .quants import UnsupportedQuantizationError, can_dequantize, dequantize
+
 from .constants import (
-    DEQUANTIZABLE_TYPES,
     GGML_BLOCK_INFO,
     GGUF_DEFAULT_ALIGNMENT,
     GGUF_MAGIC,
@@ -29,10 +30,6 @@ from .constants import (
 
 class GGUFError(Exception):
     """Malformed or unsupported GGUF file."""
-
-
-class UnsupportedQuantizationError(GGUFError):
-    """Tensor type cannot be dequantized by this prototype."""
 
 
 _SCALAR_FMT: dict[GGUFValueType, str] = {
@@ -107,7 +104,7 @@ class GGUFFile:
 
     def can_dequantize(self, name: str) -> bool:
         try:
-            return GGMLType(self.tensors[name].ggml_type) in DEQUANTIZABLE_TYPES
+            return can_dequantize(GGMLType(self.tensors[name].ggml_type))
         except ValueError:
             return False
 
@@ -120,41 +117,6 @@ class GGUFFile:
             )
         flat = dequantize(self.raw_bytes(name), GGMLType(info.ggml_type), info.n_elements)
         return flat.reshape(info.shape)
-
-
-def dequantize(raw: np.ndarray, t: GGMLType, n: int) -> np.ndarray:
-    """Dequantize a raw byte buffer of GGML type ``t`` into ``n`` float32 values."""
-    b = raw.tobytes()
-    if t == GGMLType.F32:
-        return np.frombuffer(b, "<f4", n).astype(np.float32)
-    if t == GGMLType.F16:
-        return np.frombuffer(b, "<f2", n).astype(np.float32)
-    if t == GGMLType.F64:
-        return np.frombuffer(b, "<f8", n).astype(np.float32)
-    if t == GGMLType.BF16:
-        u = np.frombuffer(b, "<u2", n).astype(np.uint32) << 16
-        return u.view(np.float32).copy()
-    if t in (GGMLType.I8, GGMLType.I16, GGMLType.I32):
-        dt = {GGMLType.I8: "i1", GGMLType.I16: "<i2", GGMLType.I32: "<i4"}[t]
-        return np.frombuffer(b, dt, n).astype(np.float32)
-    if t == GGMLType.Q8_0:
-        blk = np.frombuffer(b, np.uint8).reshape(-1, 34)
-        d = blk[:, :2].copy().view("<f2").astype(np.float32)
-        q = blk[:, 2:].copy().view(np.int8).astype(np.float32)
-        return (q * d).reshape(-1)[:n]
-    if t in (GGMLType.Q4_0, GGMLType.Q4_1):
-        hdr = 2 if t == GGMLType.Q4_0 else 4
-        blk = np.frombuffer(b, np.uint8).reshape(-1, hdr + 16)
-        d = blk[:, :2].copy().view("<f2").astype(np.float32)
-        qs = blk[:, hdr:]
-        q = np.concatenate([qs & 0x0F, qs >> 4], axis=1).astype(np.float32)
-        if t == GGMLType.Q4_0:
-            out = (q - 8.0) * d
-        else:
-            m = blk[:, 2:4].copy().view("<f2").astype(np.float32)
-            out = q * d + m
-        return out.reshape(-1)[:n]
-    raise UnsupportedQuantizationError(f"dequantization of {t.name} not implemented")
 
 
 class _Cursor:

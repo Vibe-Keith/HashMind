@@ -1,31 +1,45 @@
-"""HashCortex-S9: convert GGUF models into an ASIC-native feature architecture.
+"""Deprecated alias: HashCortex was renamed to HashMind. Use ``import hashmind``.
 
-HashCortex is a research prototype that takes a GGUF language model and
-re-expresses as much of its learned information as is realistically possible
-inside an architecture whose nonlinearity is produced by SHA-256 computation
-(as performed by an Antminer S9 / BM1387 ASIC, or a CPU simulator).
-
-This package deliberately does NOT claim that a BM1387 can run neural-network
-math. It cannot. See ``docs/ARCHITECTURE.md`` and the ``README`` for an honest
-account of what is preserved, what is approximated, and what is discarded.
+``import hashcortex.x.y`` returns the very same module object as
+``hashmind.x.y``, so classes and isinstance checks are shared.
 """
 
 from __future__ import annotations
 
-__all__ = [
-    "__version__",
-    "HASHCORTEX_VERSION",
-    "HCMODEL_FORMAT_VERSION",
-    "CONVERSION_VERSION",
-]
+import importlib
+import importlib.abc
+import importlib.util
+import sys
+import warnings
+from types import ModuleType
 
-# Semantic version of the HashCortex software.
-__version__ = "0.1.0"
-HASHCORTEX_VERSION = __version__
+import hashmind as _hashmind
 
-# On-disk .hcmodel container format version. Bump on breaking format changes.
-HCMODEL_FORMAT_VERSION = 1
+warnings.warn("'hashcortex' is deprecated; use 'hashmind'", DeprecationWarning, stacklevel=2)
 
-# Conversion-pipeline version. Bump when the conversion math changes in a way
-# that would change results for the same input model + seeds.
-CONVERSION_VERSION = 1
+
+class _AliasLoader(importlib.abc.Loader):
+    def __init__(self, target: str) -> None:
+        self.target = target
+
+    def create_module(self, spec: object) -> ModuleType:
+        return importlib.import_module(self.target)
+
+    def exec_module(self, module: ModuleType) -> None:
+        pass
+
+
+class _AliasFinder(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname: str, path: object, target: object = None):  # type: ignore[override]
+        if fullname.startswith("hashcortex."):
+            real = "hashmind." + fullname.removeprefix("hashcortex.")
+            if importlib.util.find_spec(real) is None:
+                return None
+            return importlib.util.spec_from_loader(fullname, _AliasLoader(real))
+        return None
+
+
+if not any(isinstance(f, _AliasFinder) for f in sys.meta_path):
+    sys.meta_path.insert(0, _AliasFinder())
+
+sys.modules[__name__] = _hashmind

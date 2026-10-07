@@ -96,26 +96,16 @@ GGML_BLOCK_INFO: dict[GGMLType, tuple[int, int]] = {
     GGMLType.Q5_K: (QK_K, 176),
     GGMLType.Q6_K: (QK_K, 210),
     GGMLType.Q8_K: (QK_K, 292),
+    GGMLType.IQ2_XXS: (QK_K, 66),
+    GGMLType.IQ2_XS: (QK_K, 74),
+    GGMLType.IQ3_XXS: (QK_K, 98),
+    GGMLType.IQ1_S: (QK_K, 50),
+    GGMLType.IQ4_NL: (32, 18),
+    GGMLType.IQ3_S: (QK_K, 110),
+    GGMLType.IQ2_S: (QK_K, 82),
+    GGMLType.IQ4_XS: (QK_K, 136),
+    GGMLType.IQ1_M: (QK_K, 56),
 }
-
-# Which GGML types this prototype can dequantize to float32 in pure numpy.
-# Types outside this set are reported by the inspector but raise a clear
-# UnsupportedQuantizationError if a caller tries to materialize their values.
-DEQUANTIZABLE_TYPES: frozenset[GGMLType] = frozenset(
-    {
-        GGMLType.F32,
-        GGMLType.F16,
-        GGMLType.BF16,
-        GGMLType.F64,
-        GGMLType.I8,
-        GGMLType.I16,
-        GGMLType.I32,
-        GGMLType.Q8_0,
-        GGMLType.Q4_0,
-        GGMLType.Q4_1,
-    }
-)
-
 
 def ggml_type_name(t: int) -> str:
     """Return a human-readable name for a GGML type id, even if unknown."""

@@ -1,47 +1,65 @@
-# HashCortex-S9
+# HashMind (HashMind-S9)
 
-Research prototype: convert a GGUF language model into an architecture whose
-nonlinear feature layer is SHA-256d computation, as done by an Antminer S9
-(BM1387). Phase 1 is CPU-only; no hardware I/O.
+Research prototype. It re-expresses a GGUF language model in a new,
+experimental architecture whose nonlinear feature layer is SHA-256d
+computation, the only thing an Antminer S9 (BM1387) can do. This repo is
+CPU-only so far; the real S9 backend is a later phase.
+
+Formerly **HashCortex**. `import hashcortex` and `.hcmodel` files still work.
+
+**HashMind is not equivalent to the source model.** Phase 2 shows that useful
+information from a real GGUF survives the SHA-256 representation. It does not
+show that the network was converted. See [docs/PHASE2.md](docs/PHASE2.md).
 
 ```
 model.gguf
-    -> GGUF inspector          hashcortex/gguf/
-    -> conversion analysis     hashcortex/conversion/analysis.py
-    -> HashCortex repr         hashcortex/conversion/convert.py, formats/hcmodel.py
-    -> CPU S9 simulator        hashcortex/backends/simulated.py, features/hash_layer.py
+  -> GGUF inspector            hashmind/gguf/            (F16/BF16, Q4-Q8, K-quants; IQ* via optional `gguf`)
+  -> conversion analysis       hashmind/conversion/analysis.py
+  -> weight plan               hashmind/conversion/weights.py   PRESERVED / TRANSFORMED / DISCARDED
+  -> .hmmodel                  hashmind/formats/hmmodel.py
+  -> HashMind encoder + nodes  hashmind/core/node.py, layer.py
+  -> CPU S9 simulator          hashmind/backends/simulated.py
+  -> ridge readout             hashmind/core/readout.py
 ```
 
-The output is **not** equivalent to the source model. See
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+## Headline result (TinyLlama 1.1B, token-embedding probe)
+
+| | word_start | char_class |
+|---|---:|---:|
+| majority | 50.0% | 66.5% |
+| PCA-32 (HashMind input) | 98.4% | 95.0% |
+| **HashMind, ASIC-native hash_bits** | **95.3%** | **93.5%** |
+| HashMind on shuffled embeddings (control) | 49.9% | 64.1% |
+
+Caveat: at these settings the layer has few enough distinct inputs to
+precompute as a lookup table. See PHASE2.md, "Interpretation".
 
 ## Quick start
 
 ```bash
-pip install -e .[dev]           # numpy only at runtime
+pip install -e .[dev]
 python examples/make_tiny_gguf.py tiny.gguf
-python -m hashcortex pipeline tiny.gguf -n 6
+python -m hashmind pipeline tiny.gguf -n 6
 
-python -m hashcortex inspect  model.gguf [--json]
-python -m hashcortex analyze  model.gguf [--json]
-python -m hashcortex convert  model.gguf -o model.hcmodel [--n-tuples 256 --tuple-bits 8 ...]
-python -m hashcortex simulate model.hcmodel --tokens 1,2,3
+python -m hashmind inspect    model.gguf [--json]
+python -m hashmind analyze    model.gguf [--json]
+python -m hashmind weights    model.gguf [--lowrank-rank 32 --lowrank-layers N]
+python -m hashmind convert    model.gguf -o model.hmmodel [--feature-mode hash_bits]
+python -m hashmind simulate   model.hmmodel --tokens 1,2,3
+python -m hashmind experiment model.gguf -o docs/results/probe
 pytest
 ```
 
-Dequantization: F32, F16, BF16, F64, I8/16/32, Q8_0, Q4_0, Q4_1. Other types
-(K-quants, IQ) are inspected and classified, but conversion falls back to a
-random projection if FFN weights cannot be read, and needs a supported type for
-`token_embd`/`output`.
-
-## Backend interface
+## Core API
 
 ```python
-class ASICBackend(ABC):
-    def submit_job(self, job: HashJob) -> int: ...
-    def get_result(self, job_id: int, timeout: float | None = None) -> HashResult | None: ...
+from hashmind.core import HashMindLayer, RidgeReadout
+
+layer = HashMindLayer(input_dim=32, output_dim=2048, seed=0, feature_mode="hash_bits")
+F = layer.fit_transform(Z)                 # (N, 2048) float32; layer.stats counts SHA-256d ops
+readout = RidgeReadout(10.0).fit_classes(F, labels)
+pred = readout.predict_classes(layer.transform(Z_new))
 ```
 
-`HashJob` = 76-byte header prefix + nonce range + difficulty. `HashResult`
-returns only passing nonces, matching real chip behaviour.
-`SimulatedS9Backend` is bit-exact against Bitcoin's genesis block (see tests).
+`ASICBackend.submit_job / get_result` is unchanged from phase 1.
+`SimulatedS9Backend` returns only passing nonces, as the real chip does.

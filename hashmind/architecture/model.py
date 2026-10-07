@@ -1,4 +1,4 @@
-"""HashCortex v1 model: host math around an ASIC feature layer."""
+"""HashMind v1 model: host math around an ASIC feature layer."""
 
 from __future__ import annotations
 
@@ -8,11 +8,11 @@ import numpy as np
 
 from ..backends.base import ASICBackend
 from ..features.hash_layer import HashFeatureLayer, TupleWiring
-from .config import HashCortexConfig
+from .config import HashMindConfig
 
 
 @dataclass
-class HashCortexParams:
+class HashMindParams:
     embedding: np.ndarray  # (vocab, d)            PRESERVED
     lm_head: np.ndarray | None  # (vocab, d) or None = tied  PRESERVED
     output_norm: np.ndarray | None  # (d,)         HOST-ONLY (preserved)
@@ -27,11 +27,11 @@ def rmsnorm(x: np.ndarray, w: np.ndarray | None, eps: float) -> np.ndarray:
     return y * w if w is not None else y
 
 
-class HashCortexModel:
+class HashMindModel:
     def __init__(
         self,
-        cfg: HashCortexConfig,
-        params: HashCortexParams,
+        cfg: HashMindConfig,
+        params: HashMindParams,
         wiring: TupleWiring,
         backend: ASICBackend,
     ) -> None:

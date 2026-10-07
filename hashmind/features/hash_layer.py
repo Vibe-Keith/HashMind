@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from ..architecture.config import HashCortexConfig
+from ..architecture.config import HashMindConfig
 from ..backends.base import ASICBackend, HashJob
 
 HEADER_VERSION_TAG = b"HCX1"
@@ -16,7 +16,7 @@ HEADER_VERSION_TAG = b"HCX1"
 
 @dataclass
 class TupleWiring:
-    """Seeded, fixed wiring of the hash layer (stored in the .hcmodel)."""
+    """Seeded, fixed wiring of the hash layer (stored in the .hmmodel)."""
 
     tuple_index: np.ndarray  # (n_tuples, tuple_bits) int32 indices into u
     challenges: np.ndarray  # (n_tuples, 32) uint8 per-job "prev block hash"
@@ -24,7 +24,7 @@ class TupleWiring:
     reservoir_keep_mask: np.ndarray  # (reservoir_bits,) bool
 
     @classmethod
-    def from_config(cls, cfg: HashCortexConfig) -> "TupleWiring":
+    def from_config(cls, cfg: HashMindConfig) -> "TupleWiring":
         rng = np.random.default_rng(cfg.seed)
         idx = np.stack(
             [rng.choice(cfg.input_bits, cfg.tuple_bits, replace=False) for _ in range(cfg.n_tuples)]
@@ -62,7 +62,7 @@ def build_header_prefix(challenge: bytes, payload: bytes, tuple_id: int, difficu
 class HashFeatureLayer:
     """Turns a bit vector into binary features using an :class:`ASICBackend`."""
 
-    def __init__(self, cfg: HashCortexConfig, wiring: TupleWiring, backend: ASICBackend) -> None:
+    def __init__(self, cfg: HashMindConfig, wiring: TupleWiring, backend: ASICBackend) -> None:
         cfg.validate()
         self.cfg = cfg
         self.wiring = wiring

@@ -1,7 +1,7 @@
 """Write a tiny random llama-shaped GGUF so the pipeline runs without a download.
 
     python examples/make_tiny_gguf.py tiny.gguf
-    python -m hashcortex pipeline tiny.gguf
+    python -m hashmind pipeline tiny.gguf
 """
 
 from __future__ import annotations
@@ -11,8 +11,8 @@ from pathlib import Path
 
 import numpy as np
 
-from hashcortex.gguf.constants import GGMLType
-from hashcortex.gguf.writer import write_gguf
+from hashmind.gguf.constants import GGMLType
+from hashmind.gguf.writer import write_gguf
 
 
 def make_tiny_gguf(path: str | Path, vocab: int = 256, d: int = 64, ffn: int = 128,

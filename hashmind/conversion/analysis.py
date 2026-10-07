@@ -1,10 +1,10 @@
-"""Classify each GGUF tensor by what HashCortex can do with it.
+"""Classify each GGUF tensor by what HashMind can do with it.
 
 Categories
 ----------
 PRESERVED    Used as-is (possibly re-encoded) on the host. Learned values kept.
 TRANSFORMED  Not executed as-is, but its learned values are distilled into a
-             HashCortex parameter (e.g. principal directions -> host projection).
+             HashMind parameter (e.g. principal directions -> host projection).
 REPLACED     Its computation is removed and substituted by the SHA-256 feature
              layer / reservoir. Learned values are discarded.
 HOST-ONLY    Cheap elementwise ops (norms, biases) that must stay on the host;
@@ -123,7 +123,7 @@ def classify_tensor(name: str) -> Rule:
         if re.search(r.pattern, name):
             return r
     return Rule("", Disposition.REPLACED, "unrecognized",
-                "No HashCortex mapping; dropped. Review manually.")
+                "No HashMind mapping; dropped. Review manually.")
 
 
 def analyze(summary: ModelSummary) -> ConversionReport:
@@ -139,7 +139,7 @@ def analyze(summary: ModelSummary) -> ConversionReport:
                             "rules assume llama.cpp tensor naming")
     if "output.weight" not in {t.name for t in summary.tensors}:
         rep.warnings.append("no output.weight: model uses tied embeddings; LM head = token_embd^T")
-    rep.warnings.append("The HashCortex model is NOT functionally equivalent to the source model. "
+    rep.warnings.append("The HashMind model is NOT functionally equivalent to the source model. "
                         "Only embeddings and the LM head are kept verbatim; everything between "
                         "them is replaced and must be re-fit (readout) before it is useful.")
     return rep

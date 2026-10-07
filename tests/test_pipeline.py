@@ -7,16 +7,16 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from hashcortex.architecture.config import HashCortexConfig
-from hashcortex.architecture.model import HashCortexModel
-from hashcortex.backends import HashJob, SimulatedS9Backend, meets_target, sha256d
-from hashcortex.cli import main
-from hashcortex.conversion.analysis import Disposition, analyze, classify_tensor
-from hashcortex.conversion.convert import convert
-from hashcortex.formats.hcmodel import HCModel, read_manifest
-from hashcortex.gguf import inspect_gguf, read_gguf, write_gguf
-from hashcortex.gguf.constants import GGMLType
-from hashcortex.gguf.reader import dequantize
+from hashmind.architecture.config import HashMindConfig
+from hashmind.architecture.model import HashMindModel
+from hashmind.backends import HashJob, SimulatedS9Backend, meets_target, sha256d
+from hashmind.cli import main
+from hashmind.conversion.analysis import Disposition, analyze, classify_tensor
+from hashmind.conversion.convert import convert
+from hashmind.formats.hmmodel import HMModel, read_manifest
+from hashmind.gguf import inspect_gguf, read_gguf, write_gguf
+from hashmind.gguf.constants import GGMLType
+from hashmind.gguf.reader import dequantize
 from make_tiny_gguf import make_tiny_gguf
 
 SMALL = dict(proj_dim=16, reservoir_bits=16, n_tuples=32, tuple_bits=6, nonces_per_tuple=2)
@@ -129,7 +129,7 @@ def test_ticket_floor() -> None:
 # --- conversion / hcmodel / simulation -----------------------------------
 
 def test_convert_and_roundtrip(tiny: Path, tmp_path: Path) -> None:
-    out = tmp_path / "tiny.hcmodel"
+    out = tmp_path / "tiny.hmmodel"
     m = convert(tiny, out, **SMALL)
     assert m.conversion["projection"]["method"] == "svd_gram"
     assert m.params.projection.shape == (64, 16)
@@ -138,7 +138,7 @@ def test_convert_and_roundtrip(tiny: Path, tmp_path: Path) -> None:
     assert man["source"]["architecture"] == "llama"
     assert man["seeds"]["seed"] == m.config.seed
     assert man["tensors"]["preserved/token_embd"]["dtype"] == "float16"
-    m2 = HCModel.load(out)
+    m2 = HMModel.load(out)
     assert m2.config == m.config
     np.testing.assert_array_equal(m2.wiring.tuple_index, m.wiring.tuple_index)
     np.testing.assert_allclose(m2.params.embedding, m.params.embedding, atol=1e-3)
@@ -147,8 +147,8 @@ def test_convert_and_roundtrip(tiny: Path, tmp_path: Path) -> None:
 def test_simulation_deterministic_and_dense(tiny: Path) -> None:
     hc = convert(tiny, **SMALL)
     toks = [5, 9, 5, 100, 7]
-    f1 = HashCortexModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend()).run_features(toks)
-    f2 = HashCortexModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend()).run_features(toks)
+    f1 = HashMindModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend()).run_features(toks)
+    f2 = HashMindModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend()).run_features(toks)
     np.testing.assert_array_equal(f1, f2)
     assert f1.shape == (5, hc.config.n_features)
     assert 0.35 < f1.mean() < 0.65  # difficulty_bits=1 -> p=0.5
@@ -157,7 +157,7 @@ def test_simulation_deterministic_and_dense(tiny: Path) -> None:
 
 def test_readout_fit_reduces_error(tiny: Path) -> None:
     hc = convert(tiny, **SMALL)
-    model = HashCortexModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend())
+    model = HashMindModel(hc.config, hc.params, hc.wiring, SimulatedS9Backend())
     toks = np.random.default_rng(0).integers(0, 256, 40).tolist()
     feats = model.run_features(toks)
     targets = np.random.default_rng(1).standard_normal((40, 64)).astype(np.float32) * 0.1
@@ -168,13 +168,13 @@ def test_readout_fit_reduces_error(tiny: Path) -> None:
 
 def test_config_validation() -> None:
     with pytest.raises(ValueError):
-        HashCortexConfig(hidden_dim=8, vocab_size=10, proj_dim=16).validate()
+        HashMindConfig(hidden_dim=8, vocab_size=10, proj_dim=16).validate()
 
 
 def test_cli_pipeline(tiny: Path, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    args = ["pipeline", str(tiny), "-o", str(tmp_path / "p.hcmodel"), "-n", "3"]
+    args = ["pipeline", str(tiny), "-o", str(tmp_path / "p.hmmodel"), "-n", "3"]
     args += [x for k, v in SMALL.items() for x in (f"--{k.replace('_', '-')}", str(v))]
     assert main(args) == 0
     out = capsys.readouterr().out
-    for s in ("[1] GGUF inspector", "[2] Conversion analysis", "[3] HashCortex", "[4] CPU S9"):
+    for s in ("[1] GGUF inspector", "[2] Conversion analysis", "[3] HashMind", "[4] CPU S9"):
         assert s in out
