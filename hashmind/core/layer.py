@@ -38,6 +38,8 @@ class HashMindLayerSpec:
     levels: int
     nonces_per_node: int
     challenge: dict[str, Any] = field(default_factory=dict)
+    context_dim: int = 0
+    context_per_node: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -77,10 +79,15 @@ class HashMindLayer:
         nonces_per_node: int = 16,
         backend: ASICBackend | None = None,
         thresholds: np.ndarray | None = None,
+        context_dim: int = 0,
+        context_per_node: int = 0,
         **challenge_kwargs: Any,
     ) -> None:
-        if not 1 <= tuple_size <= min(input_dim, 32):
-            raise ValueError("tuple_size must be in [1, min(input_dim, 32)]")
+        lo = 0 if context_per_node > 0 else 1
+        if not lo <= tuple_size <= min(input_dim, 16 if context_per_node else 32):
+            raise ValueError("tuple_size out of range for this input/context configuration")
+        if not 0 <= context_per_node <= min(context_dim, 4):
+            raise ValueError("context_per_node must be in [0, min(context_dim, 4)]")
         if not 2 <= levels <= 256:
             raise ValueError("levels must be in [2, 256]")
         self.input_dim = input_dim
@@ -90,6 +97,10 @@ class HashMindLayer:
         self.levels = levels
         self.challenge = ChallengeConfig(mode=FeatureMode(feature_mode), nonces=nonces_per_node,
                                          **challenge_kwargs)
+        # With the default simulator, ASIC-native features are computed by the
+        # node's CPU digest path, which is bit-identical (tested) and much faster
+        # than building HashJob objects. An explicitly passed backend is always used.
+        self._explicit_backend = backend is not None
         self.backend = backend if backend is not None else SimulatedS9Backend()
         self.stats = LayerStats()
         fpn = self.challenge.features_per_node
@@ -98,6 +109,11 @@ class HashMindLayer:
         self._indices = [tuple(int(i) for i in rng.choice(input_dim, tuple_size, replace=False))
                          for _ in range(self.n_nodes)]
         self._node_seeds = rng.integers(0, 2**32, self.n_nodes, dtype=np.uint64)
+        # Separate stream so context-free layers stay bit-identical to phase 2.
+        self.context_dim, self.context_per_node = context_dim, context_per_node
+        crng = np.random.default_rng([seed, 0xC0E7])
+        self._ctx = [tuple(int(i) for i in sorted(crng.choice(context_dim, context_per_node, replace=False)))
+                     if context_per_node else () for _ in range(self.n_nodes)]
         self.thresholds: np.ndarray | None = None
         self.nodes: list[HashMindNode] = []
         if thresholds is not None:
@@ -114,7 +130,8 @@ class HashMindLayer:
         c = asdict(self.challenge)
         c["mode"] = self.challenge.mode.value
         return HashMindLayerSpec(self.input_dim, self.output_dim, self.seed, self.challenge.mode.value,
-                                 self.tuple_size, self.levels, self.challenge.nonces, c)
+                                 self.tuple_size, self.levels, self.challenge.nonces, c,
+                                 self.context_dim, self.context_per_node)
 
     @classmethod
     def from_spec(cls, spec: HashMindLayerSpec | dict[str, Any], thresholds: np.ndarray,
@@ -122,7 +139,8 @@ class HashMindLayer:
         s = spec if isinstance(spec, dict) else spec.to_dict()
         ch = {k: v for k, v in s["challenge"].items() if k not in ("mode", "nonces")}
         return cls(s["input_dim"], s["output_dim"], s["seed"], s["feature_mode"], s["tuple_size"],
-                   s["levels"], s["nonces_per_node"], backend, thresholds, **ch)
+                   s["levels"], s["nonces_per_node"], backend, thresholds,
+                   s.get("context_dim", 0), s.get("context_per_node", 0), **ch)
 
     def set_thresholds(self, thresholds: np.ndarray) -> None:
         t = np.asarray(thresholds, np.float32)
@@ -130,23 +148,40 @@ class HashMindLayer:
             raise ValueError(f"thresholds must be ({self.input_dim}, {self.levels - 1})")
         self.thresholds = t
         self.nodes = [
-            HashMindNode(int(s), InputMapping(idx, t[list(idx)]), self.challenge)
-            for idx, s in zip(self._indices, self._node_seeds)
+            HashMindNode(int(s), InputMapping(idx, t[list(idx)], ctx), self.challenge)
+            for idx, s, ctx in zip(self._indices, self._node_seeds, self._ctx)
         ]
 
-    def fit(self, X: np.ndarray) -> "HashMindLayer":
-        """Set per-dimension quantization thresholds to equal-mass quantiles of X.
+    def fit(self, X: np.ndarray, y: np.ndarray | None = None, quantizer: str = "quantile") -> "HashMindLayer":
+        """Fit per-dimension quantization thresholds. Deterministic; no gradients.
 
-        This is the only data-dependent step and it is deterministic; there is
-        no gradient training inside the layer.
+        quantizer="quantile"   equal-mass bins of X (unsupervised; phase-2 default)
+        quantizer="supervised" greedy cut points per dimension that maximize the
+                               reduction of squared error of ``y`` (N,) or (N, m)
+                               (a 1-D regression-tree split search on each input)
         """
-        q = np.arange(1, self.levels) / self.levels
-        self.set_thresholds(np.quantile(np.asarray(X, np.float64), q, axis=0).T)
+        X = np.asarray(X, np.float64)
+        if quantizer == "quantile":
+            q = np.arange(1, self.levels) / self.levels
+            self.set_thresholds(np.quantile(X, q, axis=0).T)
+        elif quantizer == "supervised":
+            if y is None:
+                raise ValueError("supervised quantizer needs y")
+            self.set_thresholds(supervised_thresholds(X, y, self.levels))
+        else:
+            raise ValueError(f"unknown quantizer {quantizer!r}")
         return self
+
+    def table_log2(self, context_vocab: int = 0) -> float:
+        """log2 of SHA-256d evaluations needed to precompute this layer as a lookup table."""
+        per_node = self.tuple_size * np.log2(self.levels)
+        if self.context_per_node:
+            per_node += self.context_per_node * np.log2(max(context_vocab, 2))
+        return float(per_node + np.log2(self.n_nodes * self.challenge.nonces))
 
     # -- forward --------------------------------------------------------------
 
-    def transform(self, X: np.ndarray) -> np.ndarray:
+    def transform(self, X: np.ndarray, context: np.ndarray | None = None) -> np.ndarray:
         if not self.nodes:
             raise RuntimeError("layer has no thresholds: call fit(X) or pass thresholds")
         X = np.asarray(X, np.float32)
@@ -158,16 +193,27 @@ class HashMindLayer:
         out = np.empty((N, self.n_nodes * fpn), np.float32)
         nonces = self.challenge.nonces
         job_id = self.stats.asic_jobs
+        if self.context_per_node:
+            if context is None or context.shape != (N, self.context_dim):
+                raise ValueError(f"layer needs context of shape (N, {self.context_dim})")
+            context = np.asarray(context, np.uint32)
+        nt = self.tuple_size
         for j, node in enumerate(self.nodes):
-            codes = node.input_mapping.encode(X)
-            uniq, inverse = np.unique(codes, axis=0, return_inverse=True)
-            if self.asic_native:
-                jobs = [node.job(job_id + k, node.payload(u)) for k, u in enumerate(uniq)]
+            codes = node.input_mapping.encode(X).astype(np.uint32)
+            ctx_cols = node.input_mapping.context_indices
+            key = np.concatenate([codes, context[:, list(ctx_cols)]], 1) if ctx_cols else codes
+            uniq, inverse = np.unique(key, axis=0, return_inverse=True)
+
+            def pl(u: np.ndarray) -> bytes:
+                return node.payload(u[:nt], u[nt:] if ctx_cols else None)
+
+            if self.asic_native and self._explicit_backend:
+                jobs = [node.job(job_id + k, pl(u)) for k, u in enumerate(uniq)]
                 job_id += len(jobs)
                 feats = np.stack([node.features_from_nonces(r.nonces)
                                   for r in self.backend.run_jobs(jobs)])
             else:
-                feats = np.stack([node.features_from_digests(node.header_prefix(node.payload(u)))
+                feats = np.stack([node.features_from_digests(node.header_prefix(pl(u)))
                                   for u in uniq])
             out[:, j * fpn:(j + 1) * fpn] = feats[inverse.reshape(-1)]
             self.stats.sha256d_executed += len(uniq) * nonces
@@ -180,5 +226,43 @@ class HashMindLayer:
 
     __call__ = transform
 
-    def fit_transform(self, X: np.ndarray) -> np.ndarray:
-        return self.fit(X).transform(X)
+    def fit_transform(self, X: np.ndarray, context: np.ndarray | None = None, y: np.ndarray | None = None,
+                      quantizer: str = "quantile") -> np.ndarray:
+        return self.fit(X, y, quantizer).transform(X, context)
+
+
+def supervised_thresholds(X: np.ndarray, y: np.ndarray, levels: int, n_candidates: int = 63) -> np.ndarray:
+    """Per-dimension greedy split search: choose ``levels - 1`` cut points that most
+    reduce the squared error of y when y is predicted by its bin mean."""
+    Y = np.asarray(y, np.float64)
+    Y = Y[:, None] if Y.ndim == 1 else Y
+    Y = Y - Y.mean(0)
+    cands = np.quantile(X, np.linspace(0, 1, n_candidates + 2)[1:-1], axis=0)  # (C, d)
+    out = np.empty((X.shape[1], levels - 1))
+    for i in range(X.shape[1]):
+        x = X[:, i]
+        order = np.argsort(x)
+        xs, cs = x[order], np.cumsum(Y[order], 0)
+
+        def sse_gain(cuts: list[float]) -> float:
+            pos = np.searchsorted(xs, np.sort(cuts), side="right")
+            edges = np.concatenate([[0], pos, [len(x)]])
+            g = 0.0
+            for a, b in zip(edges[:-1], edges[1:]):
+                if b > a:
+                    s = (cs[b - 1] - (cs[a - 1] if a else 0))
+                    g += float((s * s).sum()) / (b - a)
+            return g
+
+        chosen: list[float] = []
+        for _ in range(levels - 1):
+            best, best_g = None, -1.0
+            for c in np.unique(cands[:, i]):
+                if c in chosen:
+                    continue
+                g = sse_gain(chosen + [c])
+                if g > best_g:
+                    best, best_g = c, g
+            chosen.append(best if best is not None else (chosen[-1] if chosen else 0.0))
+        out[i] = np.sort(chosen)
+    return out

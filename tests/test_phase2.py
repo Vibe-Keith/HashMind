@@ -19,7 +19,7 @@ from hashmind.gguf.quants import dequantize, has_gguf_package
 from hashmind.pipeline import HashMindPipeline
 from make_tiny_gguf import make_tiny_gguf
 
-MODES = [m.value for m in FeatureMode]
+MODES = [m.value for m in FeatureMode if m != FeatureMode.NONCE_BITS]  # nonce_bits needs window > 1; tested in test_phase3
 
 
 @pytest.fixture(scope="module")
