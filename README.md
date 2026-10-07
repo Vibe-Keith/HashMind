@@ -9,7 +9,9 @@ Formerly **HashCortex**. `import hashcortex` and `.hcmodel` files still work.
 
 **HashMind is not equivalent to the source model.** Phase 2 shows that useful
 information from a real GGUF survives the SHA-256 representation. It does not
-show that the network was converted. See [docs/PHASE2.md](docs/PHASE2.md).
+show that the network was converted. See [docs/PHASE2.md](docs/PHASE2.md) and
+[docs/PHASE3.md](docs/PHASE3.md) (real hidden states, next-token prediction,
+locality study, BM1387 difficulty floor).
 
 ```
 model.gguf

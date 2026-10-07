@@ -1,0 +1,140 @@
+{
+  "runs": [
+    {
+      "mode": "hash_bits",
+      "difficulty_bits": 1,
+      "window": 1,
+      "features": 1024,
+      "accuracy": 0.9453333333333334,
+      "density": 0.5017050504684448,
+      "sha256d_executed": 16384,
+      "seconds": 0.112654768000084
+    },
+    {
+      "mode": "threshold",
+      "difficulty_bits": 1,
+      "window": 2,
+      "features": 1024,
+      "accuracy": 0.936,
+      "density": 0.7556813359260559,
+      "sha256d_executed": 32768,
+      "seconds": 0.15682684600005814
+    },
+    {
+      "mode": "threshold",
+      "difficulty_bits": 4,
+      "window": 16,
+      "features": 1024,
+      "accuracy": 0.948,
+      "density": 0.6431829333305359,
+      "sha256d_executed": 262144,
+      "seconds": 0.39640667000003305
+    },
+    {
+      "mode": "threshold",
+      "difficulty_bits": 8,
+      "window": 256,
+      "features": 1024,
+      "accuracy": 0.9453333333333334,
+      "density": 0.6295963525772095,
+      "sha256d_executed": 4194304,
+      "seconds": 4.029570782000064
+    },
+    {
+      "mode": "threshold",
+      "difficulty_bits": 12,
+      "window": 4096,
+      "features": 1024,
+      "accuracy": 0.9453333333333334,
+      "density": 0.6267243027687073,
+      "sha256d_executed": 67108864,
+      "seconds": 65.02946830300016
+    },
+    {
+      "mode": "threshold",
+      "difficulty_bits": 8,
+      "window": 16,
+      "features": 1024,
+      "accuracy": 0.9253333333333333,
+      "density": 0.060555338859558105,
+      "sha256d_executed": 262144,
+      "seconds": 0.29464456000005157
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 4,
+      "window": 16,
+      "features": 1024,
+      "accuracy": 0.9506666666666667,
+      "density": 0.38821420073509216,
+      "sha256d_executed": 65536,
+      "seconds": 0.21249333400010073
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 8,
+      "window": 256,
+      "features": 1024,
+      "accuracy": 0.944,
+      "density": 0.3571301996707916,
+      "sha256d_executed": 602112,
+      "seconds": 0.7697514780002166
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 12,
+      "window": 4096,
+      "features": 1024,
+      "accuracy": 0.9466666666666667,
+      "density": 0.34088313579559326,
+      "sha256d_executed": 7471104,
+      "seconds": 7.258422397000231
+    }
+  ],
+  "s9_costs": [
+    {
+      "mode": "threshold",
+      "difficulty_bits": 32,
+      "window_log2": 32.0,
+      "features_per_window": 1,
+      "p_share_in_window": 0.6321205588285577,
+      "hashes_per_feature": 4294967296.0,
+      "features_per_second": 3143.21368932724,
+      "seconds_per_token": 0.6515624460894814,
+      "jobs_per_token": 2048.0
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 32,
+      "window_log2": 32.0,
+      "features_per_window": 9,
+      "p_share_in_window": 0.6321205588285577,
+      "hashes_per_feature": 477218588.4444444,
+      "features_per_second": 28288.92320394516,
+      "seconds_per_token": 0.07239582734327572,
+      "jobs_per_token": 227.55555555555554
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 32,
+      "window_log2": 32.0,
+      "features_per_window": 17,
+      "p_share_in_window": 0.6321205588285577,
+      "hashes_per_feature": 252645135.05882353,
+      "features_per_second": 53434.63271856308,
+      "seconds_per_token": 0.038327202711145966,
+      "jobs_per_token": 120.47058823529412
+    },
+    {
+      "mode": "nonce_bits",
+      "difficulty_bits": 32,
+      "window_log2": 32.0,
+      "features_per_window": 25,
+      "p_share_in_window": 0.6321205588285577,
+      "hashes_per_feature": 171798691.84,
+      "features_per_second": 78580.342233181,
+      "seconds_per_token": 0.02606249784357926,
+      "jobs_per_token": 81.92
+    }
+  ]
+}
