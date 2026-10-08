@@ -165,7 +165,42 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+PHASE4_COMMANDS = {
+    "phase4-hash-ablation": ("hash_ablation",),
+    "phase4-multires": ("multiresolution",),
+    "phase4-routing": ("learned_routing",),
+    "phase4-sparse": ("sparse_events",),
+    "phase4-all": ("hash_ablation", "multiresolution", "learned_routing", "sparse_events"),
+}
+
+
+def cmd_phase4(argv: list[str]) -> int:
+    from .experiments.phase4 import run_all
+    from .experiments.phase4_common import DEFAULT_SEEDS, load_tasks
+
+    p = argparse.ArgumentParser(prog="hashmind experiment phase4-*")
+    p.add_argument("command", choices=sorted(PHASE4_COMMANDS))
+    p.add_argument("gguf")
+    p.add_argument("-o", "--out", default="docs/results/phase4")
+    p.add_argument("--cache", help="npz cache for hidden states (default <out>/hidden_states.npz, not committed)")
+    p.add_argument("--seeds", type=int, nargs="+", default=list(DEFAULT_SEEDS))
+    p.add_argument("--n-seq", type=int, default=128)
+    p.add_argument("--seq-len", type=int, default=128)
+    p.add_argument("--tasks", nargs="+", help="subset of task names (default: all)")
+    a = p.parse_args(argv)
+    cache = a.cache or str(Path(a.out) / "hidden_states.npz")
+    Path(a.out).mkdir(parents=True, exist_ok=True)
+    tasks, meta = load_tasks(a.gguf, cache, a.n_seq, a.seq_len)
+    if a.tasks:
+        tasks = [t for t in tasks if t.name in a.tasks]
+    run_all(tasks, meta, a.out, tuple(a.seeds), PHASE4_COMMANDS[a.command])
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if len(argv) >= 2 and argv[0] == "experiment" and argv[1] in PHASE4_COMMANDS:
+        return cmd_phase4(argv[1:])
     a = build_parser().parse_args(argv)
     a.fn(a)
     return 0

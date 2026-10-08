@@ -3,3 +3,4 @@ __pycache__/
 *.gguf
 *.hcmodel
 .pytest_cache/
+*.npz
