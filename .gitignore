@@ -6,3 +6,4 @@ __pycache__/
 *.npz
 docs/results/phase4/rows_cache.jsonl
 docs/results/phase5/hmmodel_tmp/
+docs/results/phase5/rows_cache.jsonl

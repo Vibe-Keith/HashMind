@@ -84,7 +84,15 @@ class EvalData:
 class Reference:
     """Original-model outputs: teacher-forced logits and greedy generations, plus timing."""
 
-    def __init__(self, w: FrozenWeights, data: EvalData, splits: tuple[str, ...] = ("dev", "test")) -> None:
+    def __init__(self, w: FrozenWeights, data: EvalData, splits: tuple[str, ...] = ("dev", "test"),
+                 cache: Path | None = None) -> None:
+        if cache is not None and cache.exists():
+            z = np.load(cache, allow_pickle=False)
+            self.logits = {s: z[f"logits_{s}"] for s in splits}
+            self.gen = {s: z[f"gen_{s}"].tolist() for s in splits}
+            self.time = json.loads(str(z["time"]))
+            self.macs_per_token = float(z["macs"])
+            return
         rt = FrozenRuntime(w)
         self.logits, self.gen, self.time = {}, {}, {}
         for s in splits:
@@ -98,6 +106,31 @@ class Reference:
         rt.reset_counts()
         rt.forward(data.seqs("dev")[:1])
         self.macs_per_token = sum(v.get("fp_macs", 0) for v in rt.cv.counts.values()) / data.seqs("dev").shape[1]
+        if cache is not None:
+            np.savez(cache, macs=self.macs_per_token, time=json.dumps(self.time),
+                     **{f"logits_{s}": self.logits[s] for s in splits},
+                     **{f"gen_{s}": np.array(self.gen[s]) for s in splits})
+
+
+class RowCache:
+    """Finished rows are appended to a JSON-lines file so an interrupted run resumes."""
+
+    def __init__(self, path: Path) -> None:
+        self.path = path
+        self.rows = {}
+        if path.exists():
+            for line in path.read_text().splitlines():
+                r = json.loads(line)
+                self.rows[r["_key"]] = r
+
+    def get(self, key: str, fn: Callable[[], dict[str, Any]]) -> dict[str, Any]:
+        if key not in self.rows:
+            r = fn()
+            r["_key"] = key
+            with self.path.open("a") as f:
+                f.write(json.dumps(r, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o)) + "\n")
+            self.rows[key] = json.loads(json.dumps(r, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o)))
+        return self.rows[key]
 
 
 # -------------------------------------------------------------- evaluation ----
@@ -204,7 +237,12 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
            "hparams": asdict(w.hp), "tensor_types": sorted({t.type_name for t in g.tensors.values()})}
     meta = {"environment": environment(), "source": src, "data": data.info, "assumptions": ASSUMPTIONS}
     logf("reference outputs")
-    ref = Reference(w, data)
+    ref = Reference(w, data, cache=out / "reference_cache.npz")
+    rc = RowCache(out / "rows_cache.jsonl")
+    prev = out / "operation_conversion.json"
+    if prev.exists():  # a 5A stage finished by an earlier (pre-cache) run
+        for r in json.loads(prev.read_text())["rows"]:
+            rc.rows.setdefault(f"5A|{r['op']}|{OpConv(**r['opconv']).label()}", r)
     meta["reference_timing"] = ref.time
     meta["reference_macs_per_token"] = ref.macs_per_token
     t_ref = ref.time["test_teacher_forced_s"] / data.test.size
@@ -215,9 +253,12 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
     op_rows = []
     for op in OP_CLASSES:
         for c in op_candidates(op):
-            r = evaluate(w, {op: c}, data, ref, "dev", probe=True, name=f"{op}: {c.label()}")
-            r.update({"op": op, "opconv": asdict(c), "uses_sha": c.hash_primitive == "sha256d",
-                      "primitive": c.hash_primitive})
+            def one(op: str = op, c: OpConv = c) -> dict[str, Any]:
+                r = evaluate(w, {op: c}, data, ref, "dev", probe=True, name=f"{op}: {c.label()}")
+                r.update({"op": op, "opconv": asdict(c), "uses_sha": c.hash_primitive == "sha256d",
+                          "primitive": c.hash_primitive})
+                return r
+            r = rc.get(f"5A|{op}|{c.label()}", one)
             op_rows.append(r)
             f = r["fidelity"]
             logf(f"5A {r['name']:40s} top1 {f['top1_agreement']:.3f} KL {f['kl_ref_to_conv']:.3f}")
@@ -234,44 +275,52 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
         for rnd in ("rtn", "splitmix", "sha256d"):
             if quick and rnd == "sha256d" and bits != 4:
                 continue
-            t0 = time.perf_counter()
-            qw, _ = quantize_frozen(w, bits, rnd)
-            conv_s = time.perf_counter() - t0
-            r = evaluate(qw, {}, data, ref, "dev", name=f"weights {bits}-bit {rnd}")
-            r.update({"weight_bits": bits, "weight_rounding": rnd, "act_bits": None, "conversion_s": conv_s,
-                      "weight_hash_evals": int(sum(m.size for _, m in w.matrices())) if rnd != "rtn" else 0})
+            def wq(bits: int = bits, rnd: str = rnd) -> dict[str, Any]:
+                t0 = time.perf_counter()
+                qw, _ = quantize_frozen(w, bits, rnd)
+                conv_s = time.perf_counter() - t0
+                r = evaluate(qw, {}, data, ref, "dev", name=f"weights {bits}-bit {rnd}")
+                r.update({"weight_bits": bits, "weight_rounding": rnd, "act_bits": None, "conversion_s": conv_s,
+                          "weight_hash_evals": int(sum(m.size for _, m in w.matrices())) if rnd != "rtn" else 0})
+                return r
+            r = rc.get(f"5D|w{bits}|{rnd}", wq)
             q_rows.append(r)
-            del qw
             logf(f"5D {r['name']:32s} top1 {r['fidelity']['top1_agreement']:.3f}")
     for bits in wbits:
         for rnd in ("rtn", "splitmix", "sha256d"):
             c = OpConv("quant", bits, rnd)
-            r = evaluate(w, {op: c for op in LINEAR_OPS}, data, ref, "dev", name=f"activations {bits}-bit {rnd}")
-            r.update({"weight_bits": None, "act_bits": bits, "act_rounding": rnd})
+            def aq(bits: int = bits, rnd: str = rnd, c: OpConv = c) -> dict[str, Any]:
+                r = evaluate(w, {op: c for op in LINEAR_OPS}, data, ref, "dev", name=f"activations {bits}-bit {rnd}")
+                r.update({"weight_bits": None, "act_bits": bits, "act_rounding": rnd})
+                return r
+            r = rc.get(f"5D|a{bits}|{rnd}", aq)
             q_rows.append(r)
             logf(f"5D {r['name']:32s} top1 {r['fidelity']['top1_agreement']:.3f}")
     for rnd in ("rtn", "sha256d"):
-        qw, _ = quantize_frozen(w, 4, rnd)
-        r = evaluate(qw, {op: OpConv("quant", 8, rnd) for op in LINEAR_OPS}, data, ref, "dev",
-                     name=f"W4A8 {rnd}")
-        r.update({"weight_bits": 4, "act_bits": 8, "weight_rounding": rnd, "act_rounding": rnd})
+        def wa(rnd: str = rnd) -> dict[str, Any]:
+            qw, _ = quantize_frozen(w, 4, rnd)
+            r = evaluate(qw, {op: OpConv("quant", 8, rnd) for op in LINEAR_OPS}, data, ref, "dev",
+                         name=f"W4A8 {rnd}")
+            r.update({"weight_bits": 4, "act_bits": 8, "weight_rounding": rnd, "act_rounding": rnd})
+            return r
+        r = rc.get(f"5D|w4a8|{rnd}", wa)
         q_rows.append(r)
-        del qw
         logf(f"5D {r['name']:32s} top1 {r['fidelity']['top1_agreement']:.3f}")
     write_json(out / "quantization.json", {**meta, "rows": q_rows})
 
     # 5C (test) ---------------------------------------------------------------------
-    p_rows = [evaluate(w, {}, data, ref, "test", generate=True, name="original (reference runtime)")]
+    p_rows = [rc.get("5C|original", lambda: evaluate(w, {}, data, ref, "test", generate=True,
+                                                      name="original (reference runtime)"))]
     for gname, ops in PARTIAL_GROUPS.items():
         conv = {op: selected[op] for op in ops if op in selected}
-        r = evaluate(w, conv, data, ref, "test", generate=True, name=f"SHA-256d: {gname}")
-        r["group"] = gname
+        r = rc.get(f"5C|sha|{gname}", lambda conv=conv, gname=gname: {
+            **evaluate(w, conv, data, ref, "test", generate=True, name=f"SHA-256d: {gname}"), "group": gname})
         p_rows.append(r)
         logf(f"5C {r['name']:44s} top1 {r['fidelity']['top1_agreement']:.3f}")
         if gname in ("MLP only", "all operation classes"):
-            r2 = evaluate(w, {k: to_splitmix(v) for k, v in conv.items()}, data, ref, "test", generate=True,
-                          name=f"splitmix control: {gname}")
-            r2["group"] = gname
+            r2 = rc.get(f"5C|splitmix|{gname}", lambda conv=conv, gname=gname: {
+                **evaluate(w, {k: to_splitmix(v) for k, v in conv.items()}, data, ref, "test", generate=True,
+                           name=f"splitmix control: {gname}"), "group": gname})
             p_rows.append(r2)
             logf(f"5C {r2['name']:44s} top1 {r2['fidelity']['top1_agreement']:.3f}")
     write_json(out / "partial_conversion.json", {**meta, "selected": {k: v.label() for k, v in selected.items()},
@@ -285,24 +334,27 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
                   ("W8 sha256d + all selected SHA conversions", 8, "sha256d", selected),
                   ("W4 sha256d + all selected SHA conversions", 4, "sha256d", selected)]
     for name, bits, rnd, conv in full_specs:
-        path = hm_dir / f"w{bits}_{rnd}_{len(conv)}.hmmodel"
-        t0 = time.perf_counter()
-        man = convert_frozen(gguf, path, bits, rnd, conv, weights=w)
-        conv_s = time.perf_counter() - t0
-        reproduce = None
-        if rnd == "rtn":
-            p2 = hm_dir / "repeat.hmmodel"
-            convert_frozen(gguf, p2, bits, rnd, conv, weights=w)
-            reproduce = file_sha256(p2) == man["hmmodel_sha256"]
-            p2.unlink()
-        fw, fconv, _ = load_frozen(path)
-        r = evaluate(fw, fconv, data, ref, "test", generate=True, name=name)
-        r.update({"hmmodel_sha256": man["hmmodel_sha256"], "hmmodel_bytes": path.stat().st_size,
-                  "conversion_s": conv_s, "byte_identical_on_reconversion": reproduce,
-                  "source_sha256": man["source"]["sha256"], "conversion": man["conversion"]})
+        def full(name: str = name, bits: int = bits, rnd: str = rnd, conv: dict = conv) -> dict[str, Any]:
+            path = hm_dir / f"w{bits}_{rnd}_{len(conv)}.hmmodel"
+            t0 = time.perf_counter()
+            man = convert_frozen(gguf, path, bits, rnd, conv, weights=w)
+            conv_s = time.perf_counter() - t0
+            reproduce = None
+            if rnd == "rtn":
+                p2 = hm_dir / "repeat.hmmodel"
+                convert_frozen(gguf, p2, bits, rnd, conv, weights=w)
+                reproduce = file_sha256(p2) == man["hmmodel_sha256"]
+                p2.unlink()
+            fw, fconv, _ = load_frozen(path)
+            r = evaluate(fw, fconv, data, ref, "test", generate=True, name=name)
+            r.update({"hmmodel_sha256": man["hmmodel_sha256"], "hmmodel_bytes": path.stat().st_size,
+                      "conversion_s": conv_s, "byte_identical_on_reconversion": reproduce,
+                      "source_sha256": man["source"]["sha256"], "conversion": man["conversion"]})
+            del fw
+            path.unlink()
+            return r
+        r = rc.get(f"FULL|{name}", full)
         f_rows.append(r)
-        del fw
-        path.unlink()
         logf(f"FULL {name:46s} top1 {r['fidelity']['top1_agreement']:.3f}")
     # trivial hash control: logits are SHA-256d output of the context fingerprint
     hs = HashSource("sha256d")
