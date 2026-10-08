@@ -1,0 +1,193 @@
+{
+ "environment": {
+  "hashmind_version": "0.2.0",
+  "git_commit": "abaeb7a4ea6f006d4d06efc805973d05fdd7a85b",
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.44-fc-v80-x86_64-with-glibc2.39",
+  "time_utc": "2026-10-08T16:25:50Z"
+ },
+ "params": {
+  "n": 96,
+  "k": 5
+ },
+ "jobs": 200,
+ "solutions": 426,
+ "solutions_per_nonce_mean": 2.13,
+ "solutions_per_nonce_hist": [
+  31,
+  52,
+  37,
+  41,
+  24,
+  13,
+  0,
+  0,
+  2
+ ],
+ "software_solve_s_mean": 0.22375502618005158,
+ "raw_bits_per_solution": 544,
+ "ordering_constraint_bits": 31,
+ "upper_bound_bits_per_solution": 513,
+ "position_mean_normalized": [
+  0.02814118291290713,
+  0.527772822850187,
+  0.3508082107758858,
+  0.6757469714527399,
+  0.21735303278820056,
+  0.6273937314888681,
+  0.48004839901633106,
+  0.7413549288897447,
+  0.13698653100242078,
+  0.5815766204690709,
+  0.43440683570826,
+  0.7112278826359851,
+  0.3248401874667602,
+  0.6807637460914576,
+  0.5451056789344465,
+  0.7689998966987144,
+  0.08416706855308281,
+  0.5465845099077539,
+  0.37725880224380137,
+  0.6809885087707233,
+  0.26252035579770944,
+  0.648260429991243,
+  0.502666240566773,
+  0.7350112127026481,
+  0.18167592438173966,
+  0.5953579575802799,
+  0.4577072394285963,
+  0.71986933605212,
+  0.3459211179348225,
+  0.6745791905362841,
+  0.5589263092184291,
+  0.7802422035468016
+ ],
+ "first_index_mean_normalized": 0.02814118291290713,
+ "global_uniformity_chi2_63dof": 68.91079812206573,
+ "position_entropy_6bit": [
+  2.3037361548743447,
+  5.838671204957815,
+  5.647440820790307,
+  5.566059465066119,
+  5.022189137691856,
+  5.72126748375728,
+  5.636996269183362,
+  5.314225137487864,
+  4.3461094779869045,
+  5.764856713530382,
+  5.691363217281975,
+  5.436735913007905,
+  5.281315198513836,
+  5.527934521815163,
+  5.569252706411975,
+  5.190398171149678,
+  3.6796235870639835,
+  5.803650957708657,
+  5.5732768521750105,
+  5.564081682856978,
+  5.086982816891962,
+  5.624142843037942,
+  5.621494554032084,
+  5.34241436653616,
+  4.4886255493129426,
+  5.756701253431017,
+  5.60715794966871,
+  5.406193648694949,
+  5.210925375742148,
+  5.537388157990623,
+  5.537807426066591,
+  5.1115273353695265
+ ],
+ "distinct_indices_within_solution": true,
+ "locality": {
+  "jaccard_same_input": 1.0,
+  "jaccard_near_input": 0.0003841636756780489,
+  "jaccard_random_input": 0.0005003076942610919,
+  "chance_per_index": 0.000244140625
+ },
+ "shaping_target_set": [
+  {
+   "target_set": 1,
+   "measured_p_per_nonce": 0.0,
+   "analytic_p_per_nonce": 0.0005198228859557563
+  },
+  {
+   "target_set": 16,
+   "measured_p_per_nonce": 0.0,
+   "analytic_p_per_nonce": 0.008270201081042039
+  },
+  {
+   "target_set": 256,
+   "measured_p_per_nonce": 0.16666666666666666,
+   "analytic_p_per_nonce": 0.12117760924284571
+  },
+  {
+   "target_set": 4096,
+   "measured_p_per_nonce": 0.7333333333333333,
+   "analytic_p_per_nonce": 0.743036758598828
+  }
+ ],
+ "shaping_chosen_bits": [
+  {
+   "bits": 1,
+   "measured_p_per_solution": 0.5075821596244131,
+   "uniform_p": 0.5
+  },
+  {
+   "bits": 2,
+   "measured_p_per_solution": 0.25295774647887326,
+   "uniform_p": 0.25
+  },
+  {
+   "bits": 4,
+   "measured_p_per_solution": 0.06381455399061033,
+   "uniform_p": 0.0625
+  },
+  {
+   "bits": 6,
+   "measured_p_per_solution": 0.015434272300469485,
+   "uniform_p": 0.015625
+  },
+  {
+   "bits": 8,
+   "measured_p_per_solution": 0.0037323943661971832,
+   "uniform_p": 0.00390625
+  }
+ ],
+ "shaping_extrapolated_200_9": {
+  "1": {
+   "expected_solutions": 2.0,
+   "expected_nonces": 0.9389671361502347,
+   "z15pro_seconds_nominal_rate": 2.3809523809523808e-06,
+   "z15pro_seconds_observed_share_rate": 0.2624212736179146
+  },
+  "8": {
+   "expected_solutions": 256.0,
+   "expected_nonces": 120.18779342723005,
+   "z15pro_seconds_nominal_rate": 0.00030476190476190474,
+   "z15pro_seconds_observed_share_rate": 33.58992302309307
+  },
+  "16": {
+   "expected_solutions": 65536.0,
+   "expected_nonces": 30768.075117370892,
+   "z15pro_seconds_nominal_rate": 0.07801904761904761,
+   "z15pro_seconds_observed_share_rate": 8599.020293911826
+  },
+  "32": {
+   "expected_solutions": 4294967296.0,
+   "expected_nonces": 2016416570.8920188,
+   "z15pro_seconds_nominal_rate": 5113.056304761904,
+   "z15pro_seconds_observed_share_rate": 563545393.9818054
+  },
+  "64": {
+   "expected_solutions": 1.8446744073709552e+19,
+   "expected_nonces": 8.660443227093686e+18,
+   "z15pro_seconds_nominal_rate": 21960409611558.99,
+   "z15pro_seconds_observed_share_rate": 2.4204090369632896e+18
+  }
+ },
+ "decode_us_per_submit_200_9": 568.7255500015453,
+ "decoded_indices": 512,
+ "submit_line_bytes": 2828
+}
