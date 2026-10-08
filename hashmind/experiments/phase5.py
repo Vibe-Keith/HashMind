@@ -224,18 +224,25 @@ def to_splitmix(c: OpConv) -> OpConv:
 # ------------------------------------------------------------------- run ------
 
 def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = log,
-               n_test: int = 16, quick: bool = False) -> dict[str, Any]:
+               n_test: int = 16, quick: bool = False, fast: bool = False) -> dict[str, Any]:
+    """``fast``: SHA-256d weight dithering only at 4 bits (the 1.1e9-hash step), W4A8 rtn only,
+    4 test sequences, 8 generated tokens, and no SHA weight dithering in the full .hmmodel conversions
+    (activation conversions keep SHA-256d). Everything skipped is listed in the output JSON."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     g = read_gguf(gguf)
     tok = SPMTokenizer.from_gguf_metadata(g.metadata)
-    data = EvalData(tok, n_dev=2 if quick else 4, n_test=4 if quick else n_test, n_new=4 if quick else 16)
+    data = EvalData(tok, n_dev=2 if quick else 4, n_test=4 if (quick or fast) else n_test,
+                    n_new=4 if quick else (8 if fast else 16))
     logf("dequantizing source GGUF")
     w = FrozenWeights.from_gguf(g)
     src = {"file": Path(gguf).name, "sha256": file_sha256(gguf), "name": g.metadata.get("general.name"),
            "architecture": g.metadata.get("general.architecture"), "file_type": g.metadata.get("general.file_type"),
            "hparams": asdict(w.hp), "tensor_types": sorted({t.type_name for t in g.tensors.values()})}
-    meta = {"environment": environment(), "source": src, "data": data.info, "assumptions": ASSUMPTIONS}
+    meta = {"environment": environment(), "source": src, "data": data.info, "assumptions": ASSUMPTIONS,
+            "mode": "fast" if fast else ("quick" if quick else "full"),
+            "skipped_in_fast_mode": ["SHA-256d weight dither at 2/8/16 bits", "W4A8 sha256d",
+                                     "SHA-256d weight dither in full conversions"] if fast else []}
     logf("reference outputs")
     ref = Reference(w, data, cache=out / "reference_cache.npz")
     rc = RowCache(out / "rows_cache.jsonl")
@@ -273,7 +280,7 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
     wbits = (2, 4, 8, 16)
     for bits in wbits:
         for rnd in ("rtn", "splitmix", "sha256d"):
-            if quick and rnd == "sha256d" and bits != 4:
+            if (quick or fast) and rnd == "sha256d" and bits != 4:
                 continue
             def wq(bits: int = bits, rnd: str = rnd) -> dict[str, Any]:
                 t0 = time.perf_counter()
@@ -296,7 +303,7 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
             r = rc.get(f"5D|a{bits}|{rnd}", aq)
             q_rows.append(r)
             logf(f"5D {r['name']:32s} top1 {r['fidelity']['top1_agreement']:.3f}")
-    for rnd in ("rtn", "sha256d"):
+    for rnd in (("rtn",) if fast else ("rtn", "sha256d")):
         def wa(rnd: str = rnd) -> dict[str, Any]:
             qw, _ = quantize_frozen(w, 4, rnd)
             r = evaluate(qw, {op: OpConv("quant", 8, rnd) for op in LINEAR_OPS}, data, ref, "dev",
@@ -333,6 +340,9 @@ def run_phase5(gguf: str | Path, out: str | Path, logf: Callable[[str], None] = 
     full_specs = [("W8 rtn, no op conversion (quantization only)", 8, "rtn", {}),
                   ("W8 sha256d + all selected SHA conversions", 8, "sha256d", selected),
                   ("W4 sha256d + all selected SHA conversions", 4, "sha256d", selected)]
+    if fast:
+        full_specs = [full_specs[0], ("W8 rtn + all selected SHA conversions", 8, "rtn", selected),
+                      ("W4 rtn + all selected SHA conversions", 4, "rtn", selected)]
     for name, bits, rnd, conv in full_specs:
         def full(name: str = name, bits: int = bits, rnd: str = rnd, conv: dict = conv) -> dict[str, Any]:
             path = hm_dir / f"w{bits}_{rnd}_{len(conv)}.hmmodel"

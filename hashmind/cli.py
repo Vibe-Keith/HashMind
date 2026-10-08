@@ -215,8 +215,9 @@ def main(argv: list[str] | None = None) -> int:
         p = argparse.ArgumentParser(prog="hashmind experiment phase5")
         p.add_argument("gguf"); p.add_argument("-o", "--out", default="docs/results/phase5")
         p.add_argument("--quick", action="store_true", help="tiny smoke run")
+        p.add_argument("--fast", action="store_true", help="reduced run (see run_phase5 docstring)")
         a = p.parse_args(argv[2:])
-        run_phase5(a.gguf, a.out, quick=a.quick)
+        run_phase5(a.gguf, a.out, quick=a.quick, fast=a.fast)
         return 0
     if len(argv) >= 2 and argv[0] == "experiment" and argv[1] in PHASE4_COMMANDS:
         return cmd_phase4(argv[1:])
