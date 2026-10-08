@@ -1,0 +1,51 @@
+{
+ "environment": {
+  "hashmind_version": "0.2.0",
+  "git_commit": "abaeb7a4ea6f006d4d06efc805973d05fdd7a85b",
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.44-fc-v80-x86_64-with-glibc2.39",
+  "time_utc": "2026-10-08T16:25:50Z"
+ },
+ "zcash_96_5": {
+  "solver_vectors": 11,
+  "solver_match": 11,
+  "validator_vectors": 10,
+  "validator_match": 10,
+  "source": "https://github.com/zcash/zcash/blob/master/src/test/equihash_tests.cpp (MIT license), n=96 k=5; nonce = ArithToUint256(nonce), i.e. 32-byte little-endian"
+ },
+ "zcash_200_9_software": [
+  {
+   "nonce": 0,
+   "solutions": 3,
+   "seconds": 13.773873091999121,
+   "all_verified": true,
+   "minimal_bytes": [
+    1344,
+    1344,
+    1344
+   ]
+  },
+  {
+   "nonce": 1,
+   "solutions": 1,
+   "seconds": 13.149157448999176,
+   "all_verified": true,
+   "minimal_bytes": [
+    1344
+   ]
+  },
+  {
+   "nonce": 2,
+   "solutions": 4,
+   "seconds": 13.977217943000142,
+   "all_verified": true,
+   "minimal_bytes": [
+    1344,
+    1344,
+    1344,
+    1344
+   ]
+  }
+ ]
+}
