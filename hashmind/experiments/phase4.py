@@ -365,7 +365,7 @@ def run_all(tasks: list[Task], meta: dict[str, Any], out: str | Path, seeds: tup
             tracks: tuple[str, ...] = tuple(TRACKS), logf: Callable[[str], None] = log) -> dict[str, Any]:
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
-    cache = RowCache(logf)
+    cache = RowCache(logf, out / "rows_cache.jsonl")
     results = {}
     for name in tracks:
         logf(f"=== {TRACK_TITLES[name]} ===")

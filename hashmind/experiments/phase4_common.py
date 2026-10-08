@@ -438,9 +438,15 @@ def environment() -> dict[str, Any]:
 class RowCache:
     """Identical (task, representation, seed) triples are computed once across tracks."""
 
-    def __init__(self, log: Callable[[str], None] | None = None) -> None:
+    def __init__(self, log: Callable[[str], None] | None = None, path: str | Path | None = None) -> None:
+        """``path``: optional JSON-lines file; finished rows are appended and reloaded on restart."""
         self.rows: dict[tuple, dict[str, Any]] = {}
         self.log = log or (lambda m: None)
+        self.path = Path(path) if path else None
+        if self.path and self.path.exists():
+            for line in self.path.read_text().splitlines():
+                r = json.loads(line)
+                self.rows[(r["task"], tuple(tuple(x) for x in r["_sig"]), r["seed"])] = r
 
     def get(self, task: Task, rep: Rep, seed: int) -> dict[str, Any]:
         key = (task.name, rep.signature(), seed)
@@ -448,6 +454,11 @@ class RowCache:
             t0 = time.perf_counter()
             self.rows[key] = run_rep(task, rep, seed)
             r = self.rows[key]
+            if self.path:
+                r["_sig"] = rep.signature()
+                with self.path.open("a") as f:
+                    f.write(json.dumps(r, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o)) + "\n")
+                r.update(json.loads(json.dumps(r, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o))))
             self.log(f"{task.name:18s} {rep.name:44s} seed {seed}  score {r['score']:.4f}  "
                      f"({time.perf_counter() - t0:.0f}s)")
         row = dict(self.rows[key])
