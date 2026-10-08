@@ -1,0 +1,7069 @@
+{
+ "environment": {
+  "hashmind_version": "0.2.0",
+  "git_commit": "51dc455b64ec42b108feec185c9797e042e6d34c",
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.44-fc-v80-x86_64-with-glibc2.39",
+  "time_utc": "2026-10-08T14:55:53Z"
+ },
+ "source": {
+  "file": "tinyllama.gguf",
+  "sha256": "9ee11adf737960ff06123d5c4fba24d12c5b05ba460a7afa88950fbf2b61add0",
+  "name": "Storage",
+  "architecture": "llama",
+  "file_type": 19,
+  "hparams": {
+   "n_layer": 22,
+   "d_model": 2048,
+   "n_head": 32,
+   "n_head_kv": 4,
+   "head_dim": 64,
+   "rope_base": 10000.0,
+   "rms_eps": 9.999999747378752e-06
+  },
+  "tensor_types": [
+   "F32",
+   "IQ2_XXS",
+   "Q2_K",
+   "Q4_K",
+   "Q5_K"
+  ]
+ },
+ "data": {
+  "corpus": "pydoc_data.topics",
+  "corpus_tokens": 146142,
+  "seq_len": 64,
+  "dev_sequences": 4,
+  "test_sequences": 16,
+  "dev_offset": 0,
+  "test_offset": 73071,
+  "prompts_dev": [
+   "The capital of France is",
+   "def fibonacci(n):",
+   "Once upon a time, there was a",
+   "The three primary colors are"
+  ],
+  "prompts_test": [
+   "The largest planet in the solar system is",
+   "import numpy as np\n",
+   "Water boils at a temperature of",
+   "In Python, a list comprehension",
+   "The quick brown fox",
+   "The president of the United States",
+   "To install a package with pip, run",
+   "A triangle has three"
+  ],
+  "new_tokens": 16
+ },
+ "assumptions": {
+  "s9_hashrate_hs": 13500000000000.0,
+  "s9_power_w": 1323.0,
+  "s9_share_difficulty_bits": 32,
+  "job_bytes_out": 80,
+  "event_bytes_in": 9,
+  "link_bytes_per_s": {
+   "uart_115200": 11520,
+   "uart_3M": 300000
+  },
+  "cpu_power_w": 65.0,
+  "gpu_mem_bandwidth_bytes_per_s": 900000000000.0,
+  "gpu_power_w": 300.0,
+  "electricity_usd_per_kwh": 0.15,
+  "hypothetical_asic_note": "a SHA ASIC that returned every hash (no difficulty floor) is limited by the link"
+ },
+ "reference_timing": {
+  "dev_teacher_forced_s": 18.248080645999835,
+  "dev_generation_s": 240.71884829400005,
+  "test_teacher_forced_s": 29.896533967999858,
+  "test_generation_s": 256.40840100300056
+ },
+ "reference_macs_per_token": 1040187392.0,
+ "cpu_hash_evals_per_s_single_core": {
+  "sha256d": 651725.4833940078,
+  "splitmix": 81980152.92745198
+ },
+ "rows": [
+  {
+   "name": "embedding: hashed32000-sha256d",
+   "split": "dev",
+   "conv": {
+    "embedding": "hashed32000-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.23015873015873015,
+    "top5_agreement": 0.4087301587301587,
+    "top10_agreement": 0.4523809523809524,
+    "top5_set_overlap": 0.23571428571428574,
+    "kl_ref_to_conv": 3.382921770479062,
+    "cross_entropy_vs_ref": 6.78576908335297,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8057858997532859,
+    "logit_spearman": 0.6264035798265398,
+    "finite": true,
+    "top1_accuracy_true": 0.10317460317460317,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 6.669271564142769
+   },
+   "teacher_forced_s": 26.95439734000047,
+   "s_per_token_batched": 0.10529061460937683,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 125.0
+   },
+   "hash_evals_per_token_total": 125.0,
+   "tensor_error": {
+    "embedding": {
+     "mae": 0.00463612222054774,
+     "rmse": 0.007645977751171116,
+     "relative_error": 0.7243627819492726,
+     "cosine": 0.7077030837669608
+    }
+   },
+   "op": "embedding",
+   "opconv": {
+    "kind": "hashed",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 32000
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "embedding: hashed128000-sha256d",
+   "split": "dev",
+   "conv": {
+    "embedding": "hashed128000-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5674603174603174,
+    "top5_agreement": 0.8095238095238095,
+    "top10_agreement": 0.8571428571428571,
+    "top5_set_overlap": 0.5801587301587302,
+    "kl_ref_to_conv": 1.008745685237176,
+    "cross_entropy_vs_ref": 4.411592998111083,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9314394303116668,
+    "logit_spearman": 0.8549055273400232,
+    "finite": true,
+    "top1_accuracy_true": 0.26587301587301587,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.363094334858314
+   },
+   "teacher_forced_s": 31.940625653000097,
+   "s_per_token_batched": 0.12476806895703163,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 125.0
+   },
+   "hash_evals_per_token_total": 125.0,
+   "tensor_error": {
+    "embedding": {
+     "mae": 0.0015042528751052163,
+     "rmse": 0.004296000880007524,
+     "relative_error": 0.4069934872910318,
+     "cosine": 0.9120954582468626
+    }
+   },
+   "op": "embedding",
+   "opconv": {
+    "kind": "hashed",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 128000
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "embedding: hashed512000-sha256d",
+   "split": "dev",
+   "conv": {
+    "embedding": "hashed512000-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8690476190476191,
+    "top5_agreement": 0.9682539682539683,
+    "top10_agreement": 0.9761904761904762,
+    "top5_set_overlap": 0.8420634920634921,
+    "kl_ref_to_conv": 0.21963484785294346,
+    "cross_entropy_vs_ref": 3.6224821607268516,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9850750965173286,
+    "logit_spearman": 0.9644602591938569,
+    "finite": true,
+    "top1_accuracy_true": 0.36904761904761907,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.5394329644407216
+   },
+   "teacher_forced_s": 68.65591462500015,
+   "s_per_token_batched": 0.26818716650390684,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 125.0
+   },
+   "hash_evals_per_token_total": 125.0,
+   "tensor_error": {
+    "embedding": {
+     "mae": 0.0005229455600783695,
+     "rmse": 0.0024801141410632295,
+     "relative_error": 0.23496045074119212,
+     "cosine": 0.9715905908286813
+    }
+   },
+   "op": "embedding",
+   "opconv": {
+    "kind": "hashed",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 512000
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "embedding: hashed128000-splitmix",
+   "split": "dev",
+   "conv": {
+    "embedding": "hashed128000-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7341269841269841,
+    "top5_agreement": 0.8492063492063492,
+    "top10_agreement": 0.8849206349206349,
+    "top5_set_overlap": 0.6992063492063492,
+    "kl_ref_to_conv": 0.7383020123955257,
+    "cross_entropy_vs_ref": 4.141149325269434,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9468470268091358,
+    "logit_spearman": 0.8891728206286899,
+    "finite": true,
+    "top1_accuracy_true": 0.31746031746031744,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.075669200516855
+   },
+   "teacher_forced_s": 29.036919942999702,
+   "s_per_token_batched": 0.11342546852734259,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 125.0
+   },
+   "hash_evals_per_token_total": 125.0,
+   "tensor_error": {
+    "embedding": {
+     "mae": 0.0012673738218140183,
+     "rmse": 0.0038647356589818762,
+     "relative_error": 0.3661363875941019,
+     "cosine": 0.9162783783708119
+    }
+   },
+   "op": "embedding",
+   "opconv": {
+    "kind": "hashed",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 128000
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_qkv: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1388888888888889,
+    "top5_agreement": 0.31746031746031744,
+    "top10_agreement": 0.3888888888888889,
+    "top5_set_overlap": 0.19523809523809524,
+    "kl_ref_to_conv": 3.8646778646238884,
+    "cross_entropy_vs_ref": 7.267525177497796,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8074974612578915,
+    "logit_spearman": 0.6640666572608567,
+    "finite": true,
+    "top1_accuracy_true": 0.06746031746031746,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.261860266694499
+   },
+   "teacher_forced_s": 20.169995408000432,
+   "s_per_token_batched": 0.07878904456250169,
+   "ops_per_token": {
+    "attn_qkv": {
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.42283220522549314,
+     "rmse": 0.686352803199433,
+     "relative_error": 0.5410155444264998,
+     "cosine": 0.864585255472663
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_qkv: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5119047619047619,
+    "top5_agreement": 0.75,
+    "top10_agreement": 0.8095238095238095,
+    "top5_set_overlap": 0.4666666666666666,
+    "kl_ref_to_conv": 1.2071211914034983,
+    "cross_entropy_vs_ref": 4.609968504277406,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.931215174403249,
+    "logit_spearman": 0.840785597901909,
+    "finite": true,
+    "top1_accuracy_true": 0.29365079365079366,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.542141202240767
+   },
+   "teacher_forced_s": 20.29560697800025,
+   "s_per_token_batched": 0.07927971475781348,
+   "ops_per_token": {
+    "attn_qkv": {
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.17162323841249677,
+     "rmse": 0.2474402190212385,
+     "relative_error": 0.19335437187332355,
+     "cosine": 0.982248018749421
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_qkv: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9285714285714286,
+    "top5_agreement": 0.996031746031746,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9126984126984127,
+    "kl_ref_to_conv": 0.02095796934893722,
+    "cross_entropy_vs_ref": 3.4238052822228444,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9978990253882929,
+    "logit_spearman": 0.994876562231659,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.251914358473178
+   },
+   "teacher_forced_s": 20.878321961999973,
+   "s_per_token_batched": 0.0815559451640624,
+   "ops_per_token": {
+    "attn_qkv": {
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.011141754964316077,
+     "rmse": 0.016067854821015925,
+     "relative_error": 0.012637025295307051,
+     "cosine": 0.9999011002717254
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_qkv: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 8.594724788960981,
+    "cross_entropy_vs_ref": 11.997572101834889,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.061697513328659505,
+    "logit_spearman": 0.021470989330373863,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.959185700011291
+   },
+   "teacher_forced_s": 30.76482415600003,
+   "s_per_token_batched": 0.12017509435937512,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 45056.0,
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.6818611973459602,
+     "rmse": 0.9634886992909505,
+     "relative_error": 1.4490762963390262,
+     "cosine": 0.5676886283715952
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_qkv: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.09126984126984126,
+    "top5_agreement": 0.2619047619047619,
+    "top10_agreement": 0.29365079365079366,
+    "top5_set_overlap": 0.13174603174603175,
+    "kl_ref_to_conv": 4.478763741607418,
+    "cross_entropy_vs_ref": 7.881611054481326,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7791419689330694,
+    "logit_spearman": 0.533065559936291,
+    "finite": true,
+    "top1_accuracy_true": 0.07539682539682539,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.517833833335488
+   },
+   "teacher_forced_s": 29.348893281000528,
+   "s_per_token_batched": 0.11464411437890831,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 45056.0,
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.25063910877019535,
+     "rmse": 0.3580335672840548,
+     "relative_error": 0.29550156701153363,
+     "cosine": 0.9570267727821922
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_qkv: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8888888888888888,
+    "top5_agreement": 0.9920634920634921,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.8674603174603175,
+    "kl_ref_to_conv": 0.04937356410263987,
+    "cross_entropy_vs_ref": 3.4522208769765474,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9955665764492939,
+    "logit_spearman": 0.9888413961315953,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2778563676239374
+   },
+   "teacher_forced_s": 31.53508077599963,
+   "s_per_token_batched": 0.12318390928124856,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 45056.0,
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.015700717754078643,
+     "rmse": 0.02254334155350974,
+     "relative_error": 0.017732156482327923,
+     "cosine": 0.9998057159305053
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_qkv: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.10317460317460317,
+    "top5_agreement": 0.1984126984126984,
+    "top10_agreement": 0.23809523809523808,
+    "top5_set_overlap": 0.10396825396825397,
+    "kl_ref_to_conv": 4.889002781197961,
+    "cross_entropy_vs_ref": 8.291850094071869,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7817911894223644,
+    "logit_spearman": 0.5500476489235652,
+    "finite": true,
+    "top1_accuracy_true": 0.0873015873015873,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.09350030916069
+   },
+   "teacher_forced_s": 20.392995123999754,
+   "s_per_token_batched": 0.07966013720312404,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 45056.0,
+     "int_macs": 115343360.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.24171758608983038,
+     "rmse": 0.3442074748317198,
+     "relative_error": 0.27931903245974776,
+     "cosine": 0.9629106172828815
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_qkv: sampled256-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "sampled256-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.003968253968253968,
+    "top10_agreement": 0.003968253968253968,
+    "top5_set_overlap": 0.002380952380952381,
+    "kl_ref_to_conv": 8.012806166019974,
+    "cross_entropy_vs_ref": 11.415653478893882,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.2883971874199807,
+    "logit_spearman": 0.1087352058579422,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.35328826254917
+   },
+   "teacher_forced_s": 26.277150642999914,
+   "s_per_token_batched": 0.10264511969921841,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 5632.0,
+     "adds": 14417920.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.5884298886637309,
+     "rmse": 0.8618840781651769,
+     "relative_error": 0.8770525155824526,
+     "cosine": 0.7596678058397153
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_qkv: sampled256-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "sampled256-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 7.725128188150442,
+    "cross_entropy_vs_ref": 11.12797550102435,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.32358477606468067,
+    "logit_spearman": 0.11225592600370421,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.044883573341925
+   },
+   "teacher_forced_s": 19.9104069670002,
+   "s_per_token_batched": 0.07777502721484453,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 5632.0,
+     "adds": 14417920.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.5922995636193589,
+     "rmse": 0.8649352139761697,
+     "relative_error": 0.8876438101973013,
+     "cosine": 0.752941217373248
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_qkv: sampled1024-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "sampled1024-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5238095238095238,
+    "top5_agreement": 0.7817460317460317,
+    "top10_agreement": 0.8492063492063492,
+    "top5_set_overlap": 0.5071428571428571,
+    "kl_ref_to_conv": 1.0026132747113692,
+    "cross_entropy_vs_ref": 4.405460587585277,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9357162039341612,
+    "logit_spearman": 0.8509593529873856,
+    "finite": true,
+    "top1_accuracy_true": 0.26587301587301587,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.262673155601005
+   },
+   "teacher_forced_s": 29.10951470300006,
+   "s_per_token_batched": 0.11370904180859398,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 22528.0,
+     "adds": 57671680.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.20782089306051393,
+     "rmse": 0.304085056606821,
+     "relative_error": 0.238599992200393,
+     "cosine": 0.9753541665401567
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_qkv: sampled1024-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "sampled1024-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5396825396825397,
+    "top5_agreement": 0.8253968253968254,
+    "top10_agreement": 0.8809523809523809,
+    "top5_set_overlap": 0.5365079365079366,
+    "kl_ref_to_conv": 0.887146275192239,
+    "cross_entropy_vs_ref": 4.289993588066146,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9404117740627767,
+    "logit_spearman": 0.8633858620928974,
+    "finite": true,
+    "top1_accuracy_true": 0.2976190476190476,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.174296205993095
+   },
+   "teacher_forced_s": 20.525149015999887,
+   "s_per_token_batched": 0.08017636334374956,
+   "ops_per_token": {
+    "attn_qkv": {
+     "hashes": 22528.0,
+     "adds": 57671680.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.20754658832524653,
+     "rmse": 0.30337756544434785,
+     "relative_error": 0.23956993884730077,
+     "cosine": 0.9750897733903685
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_qkv: topk256",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "topk256"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.4365079365079365,
+    "top5_agreement": 0.6626984126984127,
+    "top10_agreement": 0.746031746031746,
+    "top5_set_overlap": 0.4444444444444444,
+    "kl_ref_to_conv": 1.485188196590482,
+    "cross_entropy_vs_ref": 4.88803550946439,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9365900075126009,
+    "logit_spearman": 0.8513099390581348,
+    "finite": true,
+    "top1_accuracy_true": 0.20238095238095238,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.852013228083312
+   },
+   "teacher_forced_s": 20.5136147660005,
+   "s_per_token_batched": 0.08013130767968946,
+   "ops_per_token": {
+    "attn_qkv": {
+     "adds": 14417920.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.17625073860818144,
+     "rmse": 0.26522991062321605,
+     "relative_error": 0.2117073870453483,
+     "cosine": 0.9807805672252239
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_qkv: topk1024",
+   "split": "dev",
+   "conv": {
+    "attn_qkv": "topk1024"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.876984126984127,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.8523809523809525,
+    "kl_ref_to_conv": 0.06188455299764309,
+    "cross_entropy_vs_ref": 3.464731865871551,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9953209168790829,
+    "logit_spearman": 0.9880546539483,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.341649358955818
+   },
+   "teacher_forced_s": 21.27434013200036,
+   "s_per_token_batched": 0.08310289114062641,
+   "ops_per_token": {
+    "attn_qkv": {
+     "adds": 57671680.0,
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_qkv": {
+     "mae": 0.06166694128677252,
+     "rmse": 0.09170640077037585,
+     "relative_error": 0.07207293956606545,
+     "cosine": 0.9976820338919666
+    }
+   },
+   "op": "attn_qkv",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_out: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1984126984126984,
+    "top5_agreement": 0.373015873015873,
+    "top10_agreement": 0.4365079365079365,
+    "top5_set_overlap": 0.2365079365079365,
+    "kl_ref_to_conv": 3.0984926167375226,
+    "cross_entropy_vs_ref": 6.50133992961143,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8579070568084717,
+    "logit_spearman": 0.7140788670173122,
+    "finite": true,
+    "top1_accuracy_true": 0.13095238095238096,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 6.472288212060964
+   },
+   "teacher_forced_s": 3.6164488550002716,
+   "s_per_token_batched": 0.01412675333984481,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.029905539066044474,
+     "rmse": 0.05700927673367917,
+     "relative_error": 0.7945488985840874,
+     "cosine": 0.5472635086993802
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_out: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8134920634920635,
+    "top5_agreement": 0.9920634920634921,
+    "top10_agreement": 0.996031746031746,
+    "top5_set_overlap": 0.8134920634920635,
+    "kl_ref_to_conv": 0.118076503980911,
+    "cross_entropy_vs_ref": 3.5209238168548187,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.989035964012146,
+    "logit_spearman": 0.9730663746741313,
+    "finite": true,
+    "top1_accuracy_true": 0.38492063492063494,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.3894972610743577
+   },
+   "teacher_forced_s": 3.7121716459996605,
+   "s_per_token_batched": 0.014500670492186174,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.00923945685876485,
+     "rmse": 0.01576926574484315,
+     "relative_error": 0.2645007848217365,
+     "cosine": 0.9513147996836399
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_out: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9880952380952381,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9809523809523809,
+    "kl_ref_to_conv": 0.00044246210219467397,
+    "cross_entropy_vs_ref": 3.4032897749761024,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9999513030052185,
+    "logit_spearman": 0.9998789691484224,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.255402569759633
+   },
+   "teacher_forced_s": 3.70210313699954,
+   "s_per_token_batched": 0.014461340378904453,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.0005965802901672858,
+     "rmse": 0.0010037828093570574,
+     "relative_error": 0.01669782976676498,
+     "cosine": 0.9997663729137305
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_out: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.023809523809523808,
+    "top5_agreement": 0.06746031746031746,
+    "top10_agreement": 0.09523809523809523,
+    "top5_set_overlap": 0.044444444444444446,
+    "kl_ref_to_conv": 6.378694064338883,
+    "cross_entropy_vs_ref": 9.78154137721279,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.6863117814064026,
+    "logit_spearman": 0.35145936124567767,
+    "finite": true,
+    "top1_accuracy_true": 0.015873015873015872,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 9.531285397704055
+   },
+   "teacher_forced_s": 11.360179158999927,
+   "s_per_token_batched": 0.04437569983984346,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 45056.0,
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.06352585410076755,
+     "rmse": 0.11659749993352933,
+     "relative_error": 1.810857300013155,
+     "cosine": 0.4488730033195054
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_out: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7619047619047619,
+    "top5_agreement": 0.9603174603174603,
+    "top10_agreement": 0.9880952380952381,
+    "top5_set_overlap": 0.7293650793650794,
+    "kl_ref_to_conv": 0.2511394455105586,
+    "cross_entropy_vs_ref": 3.653986758384466,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9773275852203369,
+    "logit_spearman": 0.9439226441748338,
+    "finite": true,
+    "top1_accuracy_true": 0.373015873015873,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.4613145399388348
+   },
+   "teacher_forced_s": 10.94553489900045,
+   "s_per_token_batched": 0.042755995699220506,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 45056.0,
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.013917301070441835,
+     "rmse": 0.023705738486298773,
+     "relative_error": 0.39943970413908775,
+     "cosine": 0.896052576042862
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_out: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9920634920634921,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9769841269841271,
+    "kl_ref_to_conv": 0.0009384271483631124,
+    "cross_entropy_vs_ref": 3.403785740022271,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.999909520149231,
+    "logit_spearman": 0.9997707691139742,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2554775259378013
+   },
+   "teacher_forced_s": 10.856313305000185,
+   "s_per_token_batched": 0.042407473847656973,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 45056.0,
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.0008455394088505686,
+     "rmse": 0.0014219647183249958,
+     "relative_error": 0.02366062964535448,
+     "cosine": 0.9995291068883585
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_out: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_out": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7420634920634921,
+    "top5_agreement": 0.9444444444444444,
+    "top10_agreement": 0.9722222222222222,
+    "top5_set_overlap": 0.7119047619047619,
+    "kl_ref_to_conv": 0.29935815549998834,
+    "cross_entropy_vs_ref": 3.702205468373896,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9770764708518982,
+    "logit_spearman": 0.9432395206902058,
+    "finite": true,
+    "top1_accuracy_true": 0.35714285714285715,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.6162582160410492
+   },
+   "teacher_forced_s": 3.6640051530002893,
+   "s_per_token_batched": 0.01431252012890738,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 45056.0,
+     "int_macs": 92274688.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.013940148649877816,
+     "rmse": 0.02374754560207877,
+     "relative_error": 0.40029425409014624,
+     "cosine": 0.895249958855181
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_out: sampled256-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_out": "sampled256-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.03571428571428571,
+    "top5_agreement": 0.14285714285714285,
+    "top10_agreement": 0.17857142857142858,
+    "top5_set_overlap": 0.08492063492063491,
+    "kl_ref_to_conv": 5.466635655128921,
+    "cross_entropy_vs_ref": 8.869482968002828,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.733993857747484,
+    "logit_spearman": 0.45031275704576357,
+    "finite": true,
+    "top1_accuracy_true": 0.023809523809523808,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.751158660954072
+   },
+   "teacher_forced_s": 24.14264957100022,
+   "s_per_token_batched": 0.09430722488671961,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 5632.0,
+     "adds": 11534336.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.043175756595400294,
+     "rmse": 0.07682553437451853,
+     "relative_error": 1.758389508363213,
+     "cosine": 0.47907315515116805
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_out: sampled256-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_out": "sampled256-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1111111111111111,
+    "top5_agreement": 0.2698412698412698,
+    "top10_agreement": 0.3333333333333333,
+    "top5_set_overlap": 0.14444444444444446,
+    "kl_ref_to_conv": 4.089307644025161,
+    "cross_entropy_vs_ref": 7.4921549568990695,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8001083161955825,
+    "logit_spearman": 0.5720474112051418,
+    "finite": true,
+    "top1_accuracy_true": 0.0873015873015873,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.490966970412595
+   },
+   "teacher_forced_s": 21.44949653599997,
+   "s_per_token_batched": 0.08378709584374988,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 5632.0,
+     "adds": 11534336.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.03773258058222962,
+     "rmse": 0.06825413088814704,
+     "relative_error": 1.5461986995775538,
+     "cosine": 0.5043132819917138
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_out: sampled1024-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_out": "sampled1024-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7222222222222222,
+    "top5_agreement": 0.9404761904761905,
+    "top10_agreement": 0.9563492063492064,
+    "top5_set_overlap": 0.6785714285714286,
+    "kl_ref_to_conv": 0.3667089624089981,
+    "cross_entropy_vs_ref": 3.769556275282906,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9678909188298821,
+    "logit_spearman": 0.9227093645045233,
+    "finite": true,
+    "top1_accuracy_true": 0.376984126984127,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.6299798213602283
+   },
+   "teacher_forced_s": 26.4827568339997,
+   "s_per_token_batched": 0.10344826888281133,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 22528.0,
+     "adds": 46137344.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.01708868260593403,
+     "rmse": 0.03082494433839288,
+     "relative_error": 0.5219002262802377,
+     "cosine": 0.8714694191116152
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_out: sampled1024-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_out": "sampled1024-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6785714285714286,
+    "top5_agreement": 0.8849206349206349,
+    "top10_agreement": 0.9206349206349206,
+    "top5_set_overlap": 0.6365079365079365,
+    "kl_ref_to_conv": 0.5186082704759033,
+    "cross_entropy_vs_ref": 3.9214555833498106,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.959407431620086,
+    "logit_spearman": 0.9040770717860191,
+    "finite": true,
+    "top1_accuracy_true": 0.3412698412698413,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.724631123113667
+   },
+   "teacher_forced_s": 20.474882734999483,
+   "s_per_token_batched": 0.07998001068359173,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "hashes": 22528.0,
+     "adds": 46137344.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.01706734353016451,
+     "rmse": 0.03066136501921376,
+     "relative_error": 0.5226901792551103,
+     "cosine": 0.8651556796263201
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_out: topk256",
+   "split": "dev",
+   "conv": {
+    "attn_out": "topk256"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7420634920634921,
+    "top5_agreement": 0.9444444444444444,
+    "top10_agreement": 0.9722222222222222,
+    "top5_set_overlap": 0.7134920634920634,
+    "kl_ref_to_conv": 0.3039578025978233,
+    "cross_entropy_vs_ref": 3.706805115471731,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9752170755204227,
+    "logit_spearman": 0.9391233247927985,
+    "finite": true,
+    "top1_accuracy_true": 0.38095238095238093,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.4855371727110915
+   },
+   "teacher_forced_s": 19.96778307400018,
+   "s_per_token_batched": 0.0779991526328132,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "adds": 11534336.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.014147579500545139,
+     "rmse": 0.026496593093644268,
+     "relative_error": 0.4289633080351837,
+     "cosine": 0.9008167457207358
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_out: topk1024",
+   "split": "dev",
+   "conv": {
+    "attn_out": "topk1024"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9285714285714286,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9031746031746032,
+    "kl_ref_to_conv": 0.022279757149199633,
+    "cross_entropy_vs_ref": 3.425127070023107,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.997825094412636,
+    "logit_spearman": 0.9945015099276923,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.27384967797795
+   },
+   "teacher_forced_s": 20.150290847999713,
+   "s_per_token_batched": 0.07871207362499888,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "adds": 46137344.0,
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_out": {
+     "mae": 0.004125090634331149,
+     "rmse": 0.007526554256720519,
+     "relative_error": 0.1259057351447548,
+     "cosine": 0.9909143349077957
+    }
+   },
+   "op": "attn_out",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_scores: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.047619047619047616,
+    "top5_agreement": 0.10714285714285714,
+    "top10_agreement": 0.14285714285714285,
+    "top5_set_overlap": 0.06984126984126984,
+    "kl_ref_to_conv": 6.387857885641224,
+    "cross_entropy_vs_ref": 9.790705198515132,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.6876861488046553,
+    "logit_spearman": 0.5031339667532436,
+    "finite": true,
+    "top1_accuracy_true": 0.015873015873015872,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 9.738231654195907
+   },
+   "teacher_forced_s": 19.289659743999437,
+   "s_per_token_batched": 0.0753502333749978,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 5.371053642298077,
+     "rmse": 7.020342246247761,
+     "relative_error": 0.9827000629068238,
+     "cosine": 0.2916144143892226
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_scores: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7063492063492064,
+    "top5_agreement": 0.9166666666666666,
+    "top10_agreement": 0.9761904761904762,
+    "top5_set_overlap": 0.6817460317460318,
+    "kl_ref_to_conv": 0.37777784231898776,
+    "cross_entropy_vs_ref": 3.780625155192895,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9703945453646452,
+    "logit_spearman": 0.9271352485106592,
+    "finite": true,
+    "top1_accuracy_true": 0.3611111111111111,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.5779630537465286
+   },
+   "teacher_forced_s": 19.36248122300003,
+   "s_per_token_batched": 0.07563469227734387,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 0.6065009928686045,
+     "rmse": 0.8256037688756572,
+     "relative_error": 0.18555384071763034,
+     "cosine": 0.9747725196500738
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_scores: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9880952380952381,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9714285714285714,
+    "kl_ref_to_conv": 0.0008546756879983754,
+    "cross_entropy_vs_ref": 3.4037019885619055,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9999263256908577,
+    "logit_spearman": 0.9998102788012135,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2631322330049746
+   },
+   "teacher_forced_s": 19.502143889999388,
+   "s_per_token_batched": 0.07618024957031011,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 0.03214164615851695,
+     "rmse": 0.04368804648032824,
+     "relative_error": 0.010085262580984331,
+     "cosine": 0.9999225075093193
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_scores: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.051587301587301584,
+    "top5_agreement": 0.0873015873015873,
+    "top10_agreement": 0.10317460317460317,
+    "top5_set_overlap": 0.053968253968253964,
+    "kl_ref_to_conv": 6.280148143151425,
+    "cross_entropy_vs_ref": 9.682995456025335,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.679060237234305,
+    "logit_spearman": 0.35881648854980713,
+    "finite": true,
+    "top1_accuracy_true": 0.01984126984126984,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 9.541955854780506
+   },
+   "teacher_forced_s": 42.91842663100033,
+   "s_per_token_batched": 0.16765010402734504,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 4.92612392626581,
+     "rmse": 7.070883136676809,
+     "relative_error": 1.9922051485746106,
+     "cosine": 0.4231086433939129
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_scores: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.4801587301587302,
+    "top5_agreement": 0.7222222222222222,
+    "top10_agreement": 0.8174603174603174,
+    "top5_set_overlap": 0.4777777777777778,
+    "kl_ref_to_conv": 1.2810080504538723,
+    "cross_entropy_vs_ref": 4.68385536332778,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9308522132118594,
+    "logit_spearman": 0.8387086879582945,
+    "finite": true,
+    "top1_accuracy_true": 0.25793650793650796,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.546335634699972
+   },
+   "teacher_forced_s": 46.63008931599961,
+   "s_per_token_batched": 0.18214878639062348,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 0.8852328220556779,
+     "rmse": 1.211986731324897,
+     "relative_error": 0.2657892605228969,
+     "cosine": 0.9507318532078591
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_scores: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9761904761904762,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9611111111111111,
+    "kl_ref_to_conv": 0.001792691915515373,
+    "cross_entropy_vs_ref": 3.404640004789423,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9998554327885771,
+    "logit_spearman": 0.9996310931802879,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.259820149729113
+   },
+   "teacher_forced_s": 54.243904164000014,
+   "s_per_token_batched": 0.21189025064062506,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 0.04545996229686658,
+     "rmse": 0.062056326781078315,
+     "relative_error": 0.014319068699161322,
+     "cosine": 0.999844802868914
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_scores: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_scores": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5079365079365079,
+    "top5_agreement": 0.753968253968254,
+    "top10_agreement": 0.8214285714285714,
+    "top5_set_overlap": 0.5111111111111112,
+    "kl_ref_to_conv": 1.0936968316676365,
+    "cross_entropy_vs_ref": 4.496544144541543,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9392780401145706,
+    "logit_spearman": 0.8557285464791603,
+    "finite": true,
+    "top1_accuracy_true": 0.27380952380952384,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.401837786205806
+   },
+   "teacher_forced_s": 20.5214296059994,
+   "s_per_token_batched": 0.08016183439843516,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_scores": {
+     "mae": 0.8741528239754429,
+     "rmse": 1.1958164167037475,
+     "relative_error": 0.26350431106740974,
+     "cosine": 0.9524710582333301
+    }
+   },
+   "op": "attn_scores",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "attn_values: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.2896825396825397,
+    "top5_agreement": 0.5317460317460317,
+    "top10_agreement": 0.6666666666666666,
+    "top5_set_overlap": 0.32142857142857145,
+    "kl_ref_to_conv": 2.228269370096164,
+    "cross_entropy_vs_ref": 5.631116682970071,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8740999698638916,
+    "logit_spearman": 0.7359379648520891,
+    "finite": true,
+    "top1_accuracy_true": 0.1865079365079365,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 5.699874846736533
+   },
+   "teacher_forced_s": 2.742374146999282,
+   "s_per_token_batched": 0.010712399011715945,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.02414244451201691,
+     "rmse": 0.0448498000703461,
+     "relative_error": 0.7109456348965885,
+     "cosine": 0.6640772358245227
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_values: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8095238095238095,
+    "top5_agreement": 0.9880952380952381,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.8047619047619047,
+    "kl_ref_to_conv": 0.11625012402991233,
+    "cross_entropy_vs_ref": 3.5190974369038197,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9890899658203125,
+    "logit_spearman": 0.9732555189502763,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2934633486782734
+   },
+   "teacher_forced_s": 2.7634285849999287,
+   "s_per_token_batched": 0.010794642910155972,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.008313028196464883,
+     "rmse": 0.013424277123471226,
+     "relative_error": 0.19141057488662216,
+     "cosine": 0.9086406568965648
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_values: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9880952380952381,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9674603174603175,
+    "kl_ref_to_conv": 0.0012856351594289878,
+    "cross_entropy_vs_ref": 3.4041329480333373,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9998857975006104,
+    "logit_spearman": 0.9997156804683561,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2571417656607355
+   },
+   "teacher_forced_s": 3.0811373209999147,
+   "s_per_token_batched": 0.012035692660155917,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.0008523682333673815,
+     "rmse": 0.0012862588334407786,
+     "relative_error": 0.018941494627893258,
+     "cosine": 0.9957277387924717
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "attn_values: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.09523809523809523,
+    "top5_agreement": 0.21031746031746032,
+    "top10_agreement": 0.2619047619047619,
+    "top5_set_overlap": 0.10714285714285714,
+    "kl_ref_to_conv": 5.117719230864277,
+    "cross_entropy_vs_ref": 8.520566543738184,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7274733185768127,
+    "logit_spearman": 0.4560059045991153,
+    "finite": true,
+    "top1_accuracy_true": 0.051587301587301584,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.48760341854339
+   },
+   "teacher_forced_s": 17.423991908999596,
+   "s_per_token_batched": 0.06806246839452967,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.04633715405227821,
+     "rmse": 0.08975502329593583,
+     "relative_error": 1.3445450814565572,
+     "cosine": 0.5147737271021328
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_values: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6944444444444444,
+    "top5_agreement": 0.9325396825396826,
+    "top10_agreement": 0.9523809523809523,
+    "top5_set_overlap": 0.6785714285714286,
+    "kl_ref_to_conv": 0.3859110229450184,
+    "cross_entropy_vs_ref": 3.788758335818926,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9729734659194946,
+    "logit_spearman": 0.9345217518875844,
+    "finite": true,
+    "top1_accuracy_true": 0.3531746031746032,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.649148117405935
+   },
+   "teacher_forced_s": 17.118512547000137,
+   "s_per_token_batched": 0.06686918963671928,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.012714743525904449,
+     "rmse": 0.02098959015159996,
+     "relative_error": 0.3046638049170473,
+     "cosine": 0.7963266794299941
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_values: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9722222222222222,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9666666666666667,
+    "kl_ref_to_conv": 0.0018666319632194839,
+    "cross_entropy_vs_ref": 3.4047139448371273,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9998041987419128,
+    "logit_spearman": 0.9995122974517404,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2654167964718814
+   },
+   "teacher_forced_s": 17.69425646200034,
+   "s_per_token_batched": 0.06911818930468883,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.0011599758527612366,
+     "rmse": 0.0017369232981336088,
+     "relative_error": 0.025643515604742942,
+     "cosine": 0.992367709498062
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "attn_values: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "attn_values": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7261904761904762,
+    "top5_agreement": 0.9087301587301587,
+    "top10_agreement": 0.9444444444444444,
+    "top5_set_overlap": 0.6626984126984127,
+    "kl_ref_to_conv": 0.43975998555991597,
+    "cross_entropy_vs_ref": 3.8426072984338235,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9698482155799866,
+    "logit_spearman": 0.9278770126397871,
+    "finite": true,
+    "top1_accuracy_true": 0.32936507936507936,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.819319132365612
+   },
+   "teacher_forced_s": 4.369387408999501,
+   "s_per_token_batched": 0.0170679195664043,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "hashes": 90112.0,
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 90112.0
+   },
+   "hash_evals_per_token_total": 90112.0,
+   "tensor_error": {
+    "attn_values": {
+     "mae": 0.012807986387742111,
+     "rmse": 0.021192372805877418,
+     "relative_error": 0.31225566447808656,
+     "cosine": 0.7995830826895313
+    }
+   },
+   "op": "attn_values",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "softmax: lut4-direct",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut4-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7817460317460317,
+    "top5_agreement": 0.9722222222222222,
+    "top10_agreement": 0.996031746031746,
+    "top5_set_overlap": 0.7833333333333332,
+    "kl_ref_to_conv": 0.168658531156552,
+    "cross_entropy_vs_ref": 3.57150584403046,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9871976375579834,
+    "logit_spearman": 0.9678552981413178,
+    "finite": true,
+    "top1_accuracy_true": 0.36904761904761907,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.3784134831290054
+   },
+   "teacher_forced_s": 2.8885082730002978,
+   "s_per_token_batched": 0.011283235441407413,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.01563012248541016,
+     "rmse": 0.06991589448372318,
+     "relative_error": 0.40539400423439986,
+     "cosine": 0.9692706809093065
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "softmax: lut6-direct",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut6-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9404761904761905,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.942063492063492,
+    "kl_ref_to_conv": 0.01234994807352164,
+    "cross_entropy_vs_ref": 3.4151972609474295,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9992203116416931,
+    "logit_spearman": 0.998036865047219,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2609478358387447
+   },
+   "teacher_forced_s": 2.7160066369997367,
+   "s_per_token_batched": 0.010609400925780221,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.0036880508855233864,
+     "rmse": 0.01690229349939662,
+     "relative_error": 0.09752929998074313,
+     "cosine": 0.998115301838482
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "softmax: lut8-direct",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut8-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9920634920634921,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9833333333333334,
+    "kl_ref_to_conv": 0.000497639269428954,
+    "cross_entropy_vs_ref": 3.4033449521433368,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9999555349349976,
+    "logit_spearman": 0.9998867186445978,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.258526039242812
+   },
+   "teacher_forced_s": 2.672163231999548,
+   "s_per_token_batched": 0.010438137624998234,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.0008924248429983701,
+     "rmse": 0.004091449913993483,
+     "relative_error": 0.0236142995601106,
+     "cosine": 0.9998816857859226
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "softmax: lut4-sha256d8",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut4-sha256d8"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1111111111111111,
+    "top5_agreement": 0.20634920634920634,
+    "top10_agreement": 0.2698412698412698,
+    "top5_set_overlap": 0.1277777777777778,
+    "kl_ref_to_conv": 5.265182091565301,
+    "cross_entropy_vs_ref": 8.668029404439208,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7690608350450332,
+    "logit_spearman": 0.5518706558729585,
+    "finite": true,
+    "top1_accuracy_true": 0.051587301587301584,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.6082833442389
+   },
+   "teacher_forced_s": 18.935485341999993,
+   "s_per_token_batched": 0.07396673961718747,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 0.0625
+   },
+   "hash_evals_per_token_total": 0.0625,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.0688799001651159,
+     "rmse": 0.1725303895241571,
+     "relative_error": 0.9000628139792182,
+     "cosine": 0.6013282934190642
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 8
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "softmax: lut6-sha256d32",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut6-sha256d32"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.12301587301587301,
+    "top5_agreement": 0.28174603174603174,
+    "top10_agreement": 0.3412698412698413,
+    "top5_set_overlap": 0.1753968253968254,
+    "kl_ref_to_conv": 4.3501309740076755,
+    "cross_entropy_vs_ref": 7.752978286881582,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8087080223894236,
+    "logit_spearman": 0.6032331948574083,
+    "finite": true,
+    "top1_accuracy_true": 0.051587301587301584,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.587117828658115
+   },
+   "teacher_forced_s": 20.107344171000477,
+   "s_per_token_batched": 0.07854431316797061,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 0.25
+   },
+   "hash_evals_per_token_total": 0.25,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.02925543840408472,
+     "rmse": 0.09343575580762616,
+     "relative_error": 0.5681285979152036,
+     "cosine": 0.8681609469202999
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 32
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "softmax: lut8-sha256d128",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut8-sha256d128"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.08333333333333333,
+    "top5_agreement": 0.21031746031746032,
+    "top10_agreement": 0.2857142857142857,
+    "top5_set_overlap": 0.14365079365079367,
+    "kl_ref_to_conv": 4.780236861423812,
+    "cross_entropy_vs_ref": 8.183084174297719,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7786764152232285,
+    "logit_spearman": 0.5680296923492242,
+    "finite": true,
+    "top1_accuracy_true": 0.03968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.978045559606735
+   },
+   "teacher_forced_s": 19.033600369999476,
+   "s_per_token_batched": 0.07435000144531045,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 1.0
+   },
+   "hash_evals_per_token_total": 1.0,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.02911018746102502,
+     "rmse": 0.11665007254838473,
+     "relative_error": 0.7051876375730559,
+     "cosine": 0.7478344060766314
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 128
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "softmax: lut6-splitmix32",
+   "split": "dev",
+   "conv": {
+    "softmax": "lut6-splitmix32"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.19047619047619047,
+    "top5_agreement": 0.32142857142857145,
+    "top10_agreement": 0.4166666666666667,
+    "top5_set_overlap": 0.2365079365079365,
+    "kl_ref_to_conv": 3.72280090348409,
+    "cross_entropy_vs_ref": 7.125648216357997,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8400089048493399,
+    "logit_spearman": 0.6774417651161991,
+    "finite": true,
+    "top1_accuracy_true": 0.08333333333333333,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.127052275941385
+   },
+   "teacher_forced_s": 18.980875952000133,
+   "s_per_token_batched": 0.07414404668750052,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "softmax": {
+     "lut_lookups": 45056.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 0.25
+   },
+   "hash_evals_per_token_total": 0.25,
+   "tensor_error": {
+    "softmax": {
+     "mae": 0.02703235952302475,
+     "rmse": 0.10301915896041129,
+     "relative_error": 0.6139069403774919,
+     "cosine": 0.9063327173749322
+    }
+   },
+   "op": "softmax",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 32
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_in: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.04365079365079365,
+    "top5_agreement": 0.10317460317460317,
+    "top10_agreement": 0.12301587301587301,
+    "top5_set_overlap": 0.03888888888888889,
+    "kl_ref_to_conv": 6.473479124473612,
+    "cross_entropy_vs_ref": 9.87632643734752,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.5890963730629347,
+    "logit_spearman": 0.24082206497042474,
+    "finite": true,
+    "top1_accuracy_true": 0.027777777777777776,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 9.609901008125638
+   },
+   "teacher_forced_s": 19.366081966999445,
+   "s_per_token_batched": 0.07564875768359158,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.20555115345175037,
+     "rmse": 0.29358493438633326,
+     "relative_error": 0.8520071221931664,
+     "cosine": 0.5698519656268952
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_in: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6825396825396826,
+    "top5_agreement": 0.8968253968253969,
+    "top10_agreement": 0.9523809523809523,
+    "top5_set_overlap": 0.6753968253968253,
+    "kl_ref_to_conv": 0.40777912017679624,
+    "cross_entropy_vs_ref": 3.8106264330507043,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9554239574225915,
+    "logit_spearman": 0.9092068697539877,
+    "finite": true,
+    "top1_accuracy_true": 0.36507936507936506,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.750810804261624
+   },
+   "teacher_forced_s": 19.207235416000003,
+   "s_per_token_batched": 0.07502826334375001,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.04877564427599933,
+     "rmse": 0.07135005082274748,
+     "relative_error": 0.21077461046857504,
+     "cosine": 0.9760890127909563
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_in: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9722222222222222,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9730158730158731,
+    "kl_ref_to_conv": 0.002254224355816421,
+    "cross_entropy_vs_ref": 3.4051015372297235,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9997376237264427,
+    "logit_spearman": 0.9994314570996456,
+    "finite": true,
+    "top1_accuracy_true": 0.40476190476190477,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.263177304483405
+   },
+   "teacher_forced_s": 19.15186722999988,
+   "s_per_token_batched": 0.07481198136718703,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.0030393488699212022,
+     "rmse": 0.004680753215222079,
+     "relative_error": 0.013428819060763828,
+     "cosine": 0.9998405998921508
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_in: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.007936507936507936,
+    "top5_set_overlap": 0.0015873015873015873,
+    "kl_ref_to_conv": 7.563517792533275,
+    "cross_entropy_vs_ref": 10.96636510540718,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.37530157976045375,
+    "logit_spearman": 0.1298670081024891,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 10.825184949517514
+   },
+   "teacher_forced_s": 29.462691474000167,
+   "s_per_token_batched": 0.11508863857031315,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 45056.0,
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.34118732661239404,
+     "rmse": 0.4770929737866654,
+     "relative_error": 1.4870135583561548,
+     "cosine": 0.5473624607109348
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_in: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6111111111111112,
+    "top5_agreement": 0.8611111111111112,
+    "top10_agreement": 0.9087301587301587,
+    "top5_set_overlap": 0.557936507936508,
+    "kl_ref_to_conv": 0.7576904552311421,
+    "cross_entropy_vs_ref": 4.16053776810505,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9346213462601732,
+    "logit_spearman": 0.8565586138754524,
+    "finite": true,
+    "top1_accuracy_true": 0.3412698412698413,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.049226776505223
+   },
+   "teacher_forced_s": 29.99688542000058,
+   "s_per_token_batched": 0.11717533367187727,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 45056.0,
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.06709880716717354,
+     "rmse": 0.09638097559908934,
+     "relative_error": 0.2908947019001404,
+     "cosine": 0.9536710072158335
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_in: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9722222222222222,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9682539682539683,
+    "kl_ref_to_conv": 0.0030626040345218754,
+    "cross_entropy_vs_ref": 3.4059099169084295,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9996664530753094,
+    "logit_spearman": 0.9992618914189917,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.251134868904025
+   },
+   "teacher_forced_s": 27.733110166999722,
+   "s_per_token_batched": 0.10833246158984267,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 45056.0,
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.004301917337592179,
+     "rmse": 0.006598782596298141,
+     "relative_error": 0.01894062491629279,
+     "cosine": 0.9996698625913193
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_in: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5436507936507936,
+    "top5_agreement": 0.8174603174603174,
+    "top10_agreement": 0.8690476190476191,
+    "top5_set_overlap": 0.5317460317460317,
+    "kl_ref_to_conv": 0.896744400041731,
+    "cross_entropy_vs_ref": 4.299591712915638,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9304176255770441,
+    "logit_spearman": 0.8461727981539133,
+    "finite": true,
+    "top1_accuracy_true": 0.2896825396825397,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.223745952542478
+   },
+   "teacher_forced_s": 18.87051828499989,
+   "s_per_token_batched": 0.07371296205078082,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 45056.0,
+     "int_macs": 507510784.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 45056.0
+   },
+   "hash_evals_per_token_total": 45056.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.06758341300769477,
+     "rmse": 0.0975012939548644,
+     "relative_error": 0.29416883019715384,
+     "cosine": 0.9529633794128819
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_in: sampled256-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "sampled256-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 7.949970828865871,
+    "cross_entropy_vs_ref": 11.352818141739778,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.2729742346283032,
+    "logit_spearman": 0.09627416025225428,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.297416450550836
+   },
+   "teacher_forced_s": 35.05372364899995,
+   "s_per_token_batched": 0.13692860800390605,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 5632.0,
+     "adds": 63438848.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.41821580298087874,
+     "rmse": 0.5976545053105946,
+     "relative_error": 1.8415600084872947,
+     "cosine": 0.5060128540452039
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_in: sampled256-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "sampled256-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.007936507936507936,
+    "top5_agreement": 0.007936507936507936,
+    "top10_agreement": 0.007936507936507936,
+    "top5_set_overlap": 0.004761904761904762,
+    "kl_ref_to_conv": 7.852056614081522,
+    "cross_entropy_vs_ref": 11.25490392695543,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.2950321538470678,
+    "logit_spearman": 0.1047286606438928,
+    "finite": true,
+    "top1_accuracy_true": 0.007936507936507936,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.174742862716036
+   },
+   "teacher_forced_s": 29.084571482000683,
+   "s_per_token_batched": 0.11361160735156517,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 5632.0,
+     "adds": 63438848.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.4166133831228253,
+     "rmse": 0.5979818829576209,
+     "relative_error": 1.8483328128220666,
+     "cosine": 0.5071464131620963
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_in: sampled1024-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "sampled1024-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.03968253968253968,
+    "top5_agreement": 0.1349206349206349,
+    "top10_agreement": 0.20238095238095238,
+    "top5_set_overlap": 0.06825396825396825,
+    "kl_ref_to_conv": 5.501404010861058,
+    "cross_entropy_vs_ref": 8.904251323734963,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7263797529704107,
+    "logit_spearman": 0.42427481197383143,
+    "finite": true,
+    "top1_accuracy_true": 0.027777777777777776,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.792369968709503
+   },
+   "teacher_forced_s": 37.726013097999385,
+   "s_per_token_batched": 0.1473672386640601,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 22528.0,
+     "adds": 253755392.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.15479214615546155,
+     "rmse": 0.22315416351015013,
+     "relative_error": 0.6708615489914127,
+     "cosine": 0.8339915370118777
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_in: sampled1024-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "sampled1024-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.04365079365079365,
+    "top5_agreement": 0.13095238095238096,
+    "top10_agreement": 0.2222222222222222,
+    "top5_set_overlap": 0.09206349206349206,
+    "kl_ref_to_conv": 5.235038494923935,
+    "cross_entropy_vs_ref": 8.637885807797844,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7432964657173802,
+    "logit_spearman": 0.45612701413317774,
+    "finite": true,
+    "top1_accuracy_true": 0.03571428571428571,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.624999334074134
+   },
+   "teacher_forced_s": 32.32225261500025,
+   "s_per_token_batched": 0.12625879927734474,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "hashes": 22528.0,
+     "adds": 253755392.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.1541508484692038,
+     "rmse": 0.22220308070812933,
+     "relative_error": 0.6730546614274578,
+     "cosine": 0.8340560012720211
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_in: topk256",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "topk256"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.17063492063492064,
+    "top5_agreement": 0.2777777777777778,
+    "top10_agreement": 0.3531746031746032,
+    "top5_set_overlap": 0.16031746031746033,
+    "kl_ref_to_conv": 5.166597156141473,
+    "cross_entropy_vs_ref": 8.56944446901538,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8278028011296797,
+    "logit_spearman": 0.6299368758145949,
+    "finite": true,
+    "top1_accuracy_true": 0.0992063492063492,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.403496142167688
+   },
+   "teacher_forced_s": 29.11497287200018,
+   "s_per_token_batched": 0.1137303627812507,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "adds": 63438848.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.14041928920194363,
+     "rmse": 0.20387172211474247,
+     "relative_error": 0.6051592567168861,
+     "cosine": 0.796026961600289
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_in: topk1024",
+   "split": "dev",
+   "conv": {
+    "mlp_in": "topk1024"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7658730158730159,
+    "top5_agreement": 0.9761904761904762,
+    "top10_agreement": 0.996031746031746,
+    "top5_set_overlap": 0.7571428571428571,
+    "kl_ref_to_conv": 0.21001519054281237,
+    "cross_entropy_vs_ref": 3.61286250341672,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9817408932746805,
+    "logit_spearman": 0.9551722083245365,
+    "finite": true,
+    "top1_accuracy_true": 0.3611111111111111,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.5100824776238224
+   },
+   "teacher_forced_s": 28.804993546000333,
+   "s_per_token_batched": 0.1125195060390638,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "adds": 253755392.0,
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_in": {
+     "mae": 0.04692591005438047,
+     "rmse": 0.06623464945059987,
+     "relative_error": 0.19311373621444808,
+     "cosine": 0.9792999728092627
+    }
+   },
+   "op": "mlp_in",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "act: lut4-direct",
+   "split": "dev",
+   "conv": {
+    "act": "lut4-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.003968253968253968,
+    "top5_agreement": 0.007936507936507936,
+    "top10_agreement": 0.007936507936507936,
+    "top5_set_overlap": 0.01111111111111111,
+    "kl_ref_to_conv": 6.953282180320067,
+    "cross_entropy_vs_ref": 10.356129493193976,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.5641741275277992,
+    "logit_spearman": 0.24733476727264544,
+    "finite": true,
+    "top1_accuracy_true": 0.003968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 10.239017985142356
+   },
+   "teacher_forced_s": 22.471620737000194,
+   "s_per_token_batched": 0.08777976850390701,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "act": {
+     "mae": 0.2576069261981478,
+     "rmse": 0.3069357093396881,
+     "relative_error": 1.830172297712724,
+     "cosine": 0.7486619427922299
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "act: lut6-direct",
+   "split": "dev",
+   "conv": {
+    "act": "lut6-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.44047619047619047,
+    "top5_agreement": 0.6944444444444444,
+    "top10_agreement": 0.7420634920634921,
+    "top5_set_overlap": 0.43730158730158725,
+    "kl_ref_to_conv": 1.5180153825197469,
+    "cross_entropy_vs_ref": 4.920862695393655,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9156132421595058,
+    "logit_spearman": 0.8103369150625311,
+    "finite": true,
+    "top1_accuracy_true": 0.2777777777777778,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.800722385114692
+   },
+   "teacher_forced_s": 23.3488305689998,
+   "s_per_token_batched": 0.09120636941015547,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "act": {
+     "mae": 0.04508919108968758,
+     "rmse": 0.054438008629629525,
+     "relative_error": 0.33319574544428165,
+     "cosine": 0.9071008938352464
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "act: lut8-direct",
+   "split": "dev",
+   "conv": {
+    "act": "lut8-direct"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8968253968253969,
+    "top5_agreement": 0.9761904761904762,
+    "top10_agreement": 0.9841269841269841,
+    "top5_set_overlap": 0.8722222222222222,
+    "kl_ref_to_conv": 0.056567293681045225,
+    "cross_entropy_vs_ref": 3.459414606554953,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9945519984134614,
+    "logit_spearman": 0.9877409793660132,
+    "finite": true,
+    "top1_accuracy_true": 0.3888888888888889,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.261716366276365
+   },
+   "teacher_forced_s": 21.398604024000633,
+   "s_per_token_batched": 0.08358829696875247,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "act": {
+     "mae": 0.010272575864131125,
+     "rmse": 0.01301073624886519,
+     "relative_error": 0.07185085716449861,
+     "cosine": 0.9906832800841747
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "act: lut4-sha256d8",
+   "split": "dev",
+   "conv": {
+    "act": "lut4-sha256d8"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 9.440655111405162,
+    "cross_entropy_vs_ref": 12.843502424279071,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": -0.1356033035971594,
+    "logit_spearman": -0.038307120978835894,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 12.94385774816445
+   },
+   "teacher_forced_s": 20.752261225999973,
+   "s_per_token_batched": 0.0810635204140624,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 0.0625
+   },
+   "hash_evals_per_token_total": 0.0625,
+   "tensor_error": {
+    "act": {
+     "mae": 0.7937925186305932,
+     "rmse": 0.8150988257857597,
+     "relative_error": 4.19042052854728,
+     "cosine": 0.23236775188768058
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 8
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "act: lut6-sha256d32",
+   "split": "dev",
+   "conv": {
+    "act": "lut6-sha256d32"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 9.048703698067422,
+    "cross_entropy_vs_ref": 12.45155101094133,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.020380933016193165,
+    "logit_spearman": -0.00816663365648539,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 12.699868709008232
+   },
+   "teacher_forced_s": 21.246235858000546,
+   "s_per_token_batched": 0.08299310882031463,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 0.25
+   },
+   "hash_evals_per_token_total": 0.25,
+   "tensor_error": {
+    "act": {
+     "mae": 3.7900476828002425,
+     "rmse": 4.2710933314863695,
+     "relative_error": 21.94376766747594,
+     "cosine": 0.043347005654301086
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 32
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "act: lut8-sha256d128",
+   "split": "dev",
+   "conv": {
+    "act": "lut8-sha256d128"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 9.351139437719434,
+    "cross_entropy_vs_ref": 12.753986750593342,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": -0.040236440328888755,
+    "logit_spearman": -0.01761927118514019,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 12.929752881215347
+   },
+   "teacher_forced_s": 20.55815920399982,
+   "s_per_token_batched": 0.0803053093906243,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 1.0
+   },
+   "hash_evals_per_token_total": 1.0,
+   "tensor_error": {
+    "act": {
+     "mae": 1.6016248085686795,
+     "rmse": 2.174138601291629,
+     "relative_error": 11.485710436195541,
+     "cosine": 0.1329497005918547
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 128
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "act: lut6-splitmix32",
+   "split": "dev",
+   "conv": {
+    "act": "lut6-splitmix32"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.0,
+    "top5_set_overlap": 0.0,
+    "kl_ref_to_conv": 9.270476023558901,
+    "cross_entropy_vs_ref": 12.673323336432809,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": -0.04475543385346993,
+    "logit_spearman": -0.02817419800465765,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 12.894222592438982
+   },
+   "teacher_forced_s": 21.931525013000282,
+   "s_per_token_batched": 0.08567001958203235,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "act": {
+     "lut_lookups": 123904.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 0.25
+   },
+   "hash_evals_per_token_total": 0.25,
+   "tensor_error": {
+    "act": {
+     "mae": 3.146188580587071,
+     "rmse": 3.3059380023861418,
+     "relative_error": 16.84062058454247,
+     "cosine": 0.06373583897412598
+    }
+   },
+   "op": "act",
+   "opconv": {
+    "kind": "lut",
+    "bits": 6,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 32
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_down: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.015873015873015872,
+    "top5_agreement": 0.015873015873015872,
+    "top10_agreement": 0.015873015873015872,
+    "top5_set_overlap": 0.007936507936507936,
+    "kl_ref_to_conv": 7.436189223910401,
+    "cross_entropy_vs_ref": 10.83903653678431,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.4869031832174483,
+    "logit_spearman": 0.21622661329778514,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 10.919432813666235
+   },
+   "teacher_forced_s": 20.665659211000275,
+   "s_per_token_batched": 0.08072523129296982,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.05552620035750475,
+     "rmse": 0.10383396483547377,
+     "relative_error": 0.5372936945615954,
+     "cosine": 0.3927170547444542
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_down: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6349206349206349,
+    "top5_agreement": 0.8650793650793651,
+    "top10_agreement": 0.9087301587301587,
+    "top5_set_overlap": 0.5611111111111111,
+    "kl_ref_to_conv": 0.7502686154159206,
+    "cross_entropy_vs_ref": 4.153115928289828,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9320193469461628,
+    "logit_spearman": 0.8478406209163148,
+    "finite": true,
+    "top1_accuracy_true": 0.34523809523809523,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.9251836107533493
+   },
+   "teacher_forced_s": 20.746796631000507,
+   "s_per_token_batched": 0.08104217433984573,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.02865582639082248,
+     "rmse": 0.06572567607074803,
+     "relative_error": 0.2341863178132183,
+     "cosine": 0.8740961369385783
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_down: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9563492063492064,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9412698412698413,
+    "kl_ref_to_conv": 0.008978203359334656,
+    "cross_entropy_vs_ref": 3.4118255162332423,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.998599279329505,
+    "logit_spearman": 0.9972004970733798,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2771593550341755
+   },
+   "teacher_forced_s": 21.000174619000063,
+   "s_per_token_batched": 0.082031932105469,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.0027517637384313555,
+     "rmse": 0.007451839969811472,
+     "relative_error": 0.028719973050782242,
+     "cosine": 0.9990110776987209
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_down: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.003968253968253968,
+    "top10_agreement": 0.011904761904761904,
+    "top5_set_overlap": 0.002380952380952381,
+    "kl_ref_to_conv": 7.805596722734944,
+    "cross_entropy_vs_ref": 11.208444035608853,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.3371363266581991,
+    "logit_spearman": 0.1237439534840799,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.306524673073632
+   },
+   "teacher_forced_s": 43.920840011999644,
+   "s_per_token_batched": 0.1715657812968736,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 123904.0,
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 123904.0
+   },
+   "hash_evals_per_token_total": 123904.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.1296942506506479,
+     "rmse": 0.25453772431726346,
+     "relative_error": 2.4501671204198336,
+     "cosine": 0.39747805045262685
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_down: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1388888888888889,
+    "top5_agreement": 0.32142857142857145,
+    "top10_agreement": 0.4087301587301587,
+    "top5_set_overlap": 0.16746031746031748,
+    "kl_ref_to_conv": 3.690640843830236,
+    "cross_entropy_vs_ref": 7.093488156704145,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.805347450116421,
+    "logit_spearman": 0.5988480017371243,
+    "finite": true,
+    "top1_accuracy_true": 0.09126984126984126,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.047968316288417
+   },
+   "teacher_forced_s": 43.85200316499959,
+   "s_per_token_batched": 0.17129688736327964,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 123904.0,
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 123904.0
+   },
+   "hash_evals_per_token_total": 123904.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.038798836205482995,
+     "rmse": 0.0790286317228745,
+     "relative_error": 0.5045491665536049,
+     "cosine": 0.8140165655553669
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_down: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9087301587301587,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.8880952380952382,
+    "kl_ref_to_conv": 0.027581148366383392,
+    "cross_entropy_vs_ref": 3.4304284612402913,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9958624321836519,
+    "logit_spearman": 0.9906253830550498,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2916147673782383
+   },
+   "teacher_forced_s": 45.4452398960002,
+   "s_per_token_batched": 0.1775204683437508,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 123904.0,
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 123904.0
+   },
+   "hash_evals_per_token_total": 123904.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.004119142178346891,
+     "rmse": 0.012326132682885294,
+     "relative_error": 0.046447195820354094,
+     "cosine": 0.9979854240898781
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_down: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1626984126984127,
+    "top5_agreement": 0.30952380952380953,
+    "top10_agreement": 0.36904761904761907,
+    "top5_set_overlap": 0.16984126984126982,
+    "kl_ref_to_conv": 3.7331772443714573,
+    "cross_entropy_vs_ref": 7.136024557245365,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7921089573007005,
+    "logit_spearman": 0.5830377706499988,
+    "finite": true,
+    "top1_accuracy_true": 0.0992063492063492,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 7.174189805258021
+   },
+   "teacher_forced_s": 19.08519428799991,
+   "s_per_token_batched": 0.07455154018749965,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 123904.0,
+     "int_macs": 253755392.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 123904.0
+   },
+   "hash_evals_per_token_total": 123904.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.03988275579397313,
+     "rmse": 0.08488751572346857,
+     "relative_error": 0.5499078567624534,
+     "cosine": 0.8188495885055392
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_down: sampled256-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "sampled256-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.0,
+    "top10_agreement": 0.003968253968253968,
+    "top5_set_overlap": 0.0007936507936507937,
+    "kl_ref_to_conv": 8.048521087373313,
+    "cross_entropy_vs_ref": 11.45136840024722,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.29711202898004135,
+    "logit_spearman": 0.10904807687941533,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.345662361003791
+   },
+   "teacher_forced_s": 28.66188245000012,
+   "s_per_token_batched": 0.11196047832031297,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 5632.0,
+     "adds": 11534336.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.13641431344168778,
+     "rmse": 0.23318224398465956,
+     "relative_error": 1.7980246023832192,
+     "cosine": 0.37235229931454245
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_down: sampled256-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "sampled256-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.0,
+    "top5_agreement": 0.003968253968253968,
+    "top10_agreement": 0.007936507936507936,
+    "top5_set_overlap": 0.002380952380952381,
+    "kl_ref_to_conv": 7.952228602127677,
+    "cross_entropy_vs_ref": 11.355075915001585,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.3210915268371422,
+    "logit_spearman": 0.11644028014105061,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 11.2700615355694
+   },
+   "teacher_forced_s": 23.017409475999557,
+   "s_per_token_batched": 0.08991175576562327,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 5632.0,
+     "adds": 11534336.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 5632.0
+   },
+   "hash_evals_per_token_total": 5632.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.1370453825927753,
+     "rmse": 0.2347186666339258,
+     "relative_error": 1.8661512588154048,
+     "cosine": 0.37211576481664554
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_down: sampled1024-sha256d",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "sampled1024-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.03968253968253968,
+    "top5_agreement": 0.11507936507936507,
+    "top10_agreement": 0.17857142857142858,
+    "top5_set_overlap": 0.07301587301587302,
+    "kl_ref_to_conv": 5.454435790949219,
+    "cross_entropy_vs_ref": 8.857283103823127,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7261017788207325,
+    "logit_spearman": 0.4391956175739608,
+    "finite": true,
+    "top1_accuracy_true": 0.031746031746031744,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.795126397621516
+   },
+   "teacher_forced_s": 31.6099093189996,
+   "s_per_token_batched": 0.12347620827734218,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 22528.0,
+     "adds": 46137344.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.058035273412041406,
+     "rmse": 0.10465014360954092,
+     "relative_error": 0.5086270445361213,
+     "cosine": 0.6808426755746901
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "mlp_down: sampled1024-splitmix",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "sampled1024-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.06349206349206349,
+    "top5_agreement": 0.12301587301587301,
+    "top10_agreement": 0.17857142857142858,
+    "top5_set_overlap": 0.07777777777777778,
+    "kl_ref_to_conv": 5.478075524904327,
+    "cross_entropy_vs_ref": 8.880922837778234,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7158073051146757,
+    "logit_spearman": 0.41585067529046,
+    "finite": true,
+    "top1_accuracy_true": 0.027777777777777776,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.84350381370106
+   },
+   "teacher_forced_s": 24.694496240999797,
+   "s_per_token_batched": 0.09646287594140546,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "hashes": 22528.0,
+     "adds": 46137344.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 22528.0
+   },
+   "hash_evals_per_token_total": 22528.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.058594968658840486,
+     "rmse": 0.10623543225209899,
+     "relative_error": 0.5661939099182421,
+     "cosine": 0.6794795568461018
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "mlp_down: topk256",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "topk256"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.42857142857142855,
+    "top5_agreement": 0.7301587301587301,
+    "top10_agreement": 0.8055555555555556,
+    "top5_set_overlap": 0.4222222222222222,
+    "kl_ref_to_conv": 1.5460141120966928,
+    "cross_entropy_vs_ref": 4.9488614249706,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.8952089871990694,
+    "logit_spearman": 0.7505565021520793,
+    "finite": true,
+    "top1_accuracy_true": 0.23412698412698413,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.5624215316820225
+   },
+   "teacher_forced_s": 20.977898710000773,
+   "s_per_token_batched": 0.08194491683594052,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "adds": 11534336.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.03672370989072784,
+     "rmse": 0.06584764412450536,
+     "relative_error": 0.20591844703861306,
+     "cosine": 0.7837689724302613
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "mlp_down: topk1024",
+   "split": "dev",
+   "conv": {
+    "mlp_down": "topk1024"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.7579365079365079,
+    "top5_agreement": 0.9523809523809523,
+    "top10_agreement": 0.9722222222222222,
+    "top5_set_overlap": 0.7023809523809523,
+    "kl_ref_to_conv": 0.33968307979457507,
+    "cross_entropy_vs_ref": 3.742530392668482,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9715258978253665,
+    "logit_spearman": 0.9292660747061794,
+    "finite": true,
+    "top1_accuracy_true": 0.36904761904761907,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.426321260313375
+   },
+   "teacher_forced_s": 20.717153352999958,
+   "s_per_token_batched": 0.08092638028515609,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "adds": 46137344.0,
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "mlp_down": {
+     "mae": 0.020039360534348252,
+     "rmse": 0.034996426261585604,
+     "relative_error": 0.12334999004214175,
+     "cosine": 0.9361961162453917
+    }
+   },
+   "op": "mlp_down",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "lm_head: quant2-rtn",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant2-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.015873015873015872,
+    "top5_agreement": 0.06349206349206349,
+    "top10_agreement": 0.07539682539682539,
+    "top5_set_overlap": 0.04523809523809524,
+    "kl_ref_to_conv": 5.104499180931889,
+    "cross_entropy_vs_ref": 8.507346493805795,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7677425742149353,
+    "logit_spearman": 0.6436439462766413,
+    "finite": true,
+    "top1_accuracy_true": 0.0,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 8.466119938113906
+   },
+   "teacher_forced_s": 17.762507475999882,
+   "s_per_token_batched": 0.06938479482812454,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 2.052319314990041,
+     "rmse": 2.612645674145938,
+     "relative_error": 0.6091404050594962,
+     "cosine": 0.762296463243169
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "lm_head: quant4-rtn",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant4-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6587301587301587,
+    "top5_agreement": 0.9047619047619048,
+    "top10_agreement": 0.9444444444444444,
+    "top5_set_overlap": 0.6484126984126984,
+    "kl_ref_to_conv": 0.4480502326431064,
+    "cross_entropy_vs_ref": 3.850897545517015,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9562509655952454,
+    "logit_spearman": 0.9158501309209366,
+    "finite": true,
+    "top1_accuracy_true": 0.3492063492063492,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.7458361977418515
+   },
+   "teacher_forced_s": 19.752400332000434,
+   "s_per_token_batched": 0.0771578137968767,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 0.8253581128452561,
+     "rmse": 1.0665151400396473,
+     "relative_error": 0.24865884832171364,
+     "cosine": 0.9564754371337923
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "lm_head: quant8-rtn",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant8-rtn"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9603174603174603,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.973015873015873,
+    "kl_ref_to_conv": 0.0010459173531473032,
+    "cross_entropy_vs_ref": 3.4038932302270553,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9998317360877991,
+    "logit_spearman": 0.99960498187799,
+    "finite": true,
+    "top1_accuracy_true": 0.4007936507936508,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2578752998576683
+   },
+   "teacher_forced_s": 19.187604280000414,
+   "s_per_token_batched": 0.07495157921875162,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 0.04815005848793733,
+     "rmse": 0.06311475714902691,
+     "relative_error": 0.01471525554170591,
+     "cosine": 0.9998329397407832
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "lm_head: quant2-sha256d",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant2-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.06349206349206349,
+    "top5_agreement": 0.14682539682539683,
+    "top10_agreement": 0.1984126984126984,
+    "top5_set_overlap": 0.08095238095238094,
+    "kl_ref_to_conv": 9.2472946215217,
+    "cross_entropy_vs_ref": 12.650141934395606,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.5850691795349121,
+    "logit_spearman": 0.4509470581038273,
+    "finite": true,
+    "top1_accuracy_true": 0.05952380952380952,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 12.084266420731113
+   },
+   "teacher_forced_s": 19.553168704999734,
+   "s_per_token_batched": 0.07637956525390521,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 2048.0,
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 2048.0
+   },
+   "hash_evals_per_token_total": 2048.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 4.694819563252009,
+     "rmse": 6.0226898452853685,
+     "relative_error": 1.4041949002916798,
+     "cosine": 0.584186018640446
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 2,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "lm_head: quant4-sha256d",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant4-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5833333333333334,
+    "top5_agreement": 0.8650793650793651,
+    "top10_agreement": 0.9285714285714286,
+    "top5_set_overlap": 0.5936507936507937,
+    "kl_ref_to_conv": 0.6308907157591528,
+    "cross_entropy_vs_ref": 4.033738028633061,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9300593733787537,
+    "logit_spearman": 0.8647326341846944,
+    "finite": true,
+    "top1_accuracy_true": 0.3492063492063492,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.873672070705751
+   },
+   "teacher_forced_s": 20.745109443999354,
+   "s_per_token_batched": 0.08103558376562248,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 2048.0,
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 2048.0
+   },
+   "hash_evals_per_token_total": 2048.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 1.1840757067245458,
+     "rmse": 1.533451925143105,
+     "relative_error": 0.35752552903151874,
+     "cosine": 0.9303878020527809
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "lm_head: quant8-sha256d",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant8-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.9642857142857143,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.9579365079365079,
+    "kl_ref_to_conv": 0.0021105071068329958,
+    "cross_entropy_vs_ref": 3.4049578199807407,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9996647834777832,
+    "logit_spearman": 0.9992061891818651,
+    "finite": true,
+    "top1_accuracy_true": 0.4087301587301587,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.2558156266960787
+   },
+   "teacher_forced_s": 20.16055881200009,
+   "s_per_token_batched": 0.07875218285937535,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 2048.0,
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 2048.0
+   },
+   "hash_evals_per_token_total": 2048.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 0.06828881311326415,
+     "rmse": 0.08966602391709015,
+     "relative_error": 0.020905704385951816,
+     "cosine": 0.9996671609478662
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 8,
+    "rounding": "sha256d",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "lm_head: quant4-splitmix",
+   "split": "dev",
+   "conv": {
+    "lm_head": "quant4-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.5714285714285714,
+    "top5_agreement": 0.8849206349206349,
+    "top10_agreement": 0.9444444444444444,
+    "top5_set_overlap": 0.5904761904761905,
+    "kl_ref_to_conv": 0.6421975204909227,
+    "cross_entropy_vs_ref": 4.04504483336483,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9350849986076355,
+    "logit_spearman": 0.8668527940875057,
+    "finite": true,
+    "top1_accuracy_true": 0.3253968253968254,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.950264129678529
+   },
+   "teacher_forced_s": 19.449805561000176,
+   "s_per_token_batched": 0.07597580297265694,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 2048.0,
+     "int_macs": 65536000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 2048.0
+   },
+   "hash_evals_per_token_total": 2048.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 1.19354251137681,
+     "rmse": 1.5450997863036526,
+     "relative_error": 0.3602412370724616,
+     "cosine": 0.9352939945266248
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "quant",
+    "bits": 4,
+    "rounding": "splitmix",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "lm_head: sampled256-sha256d",
+   "split": "dev",
+   "conv": {
+    "lm_head": "sampled256-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.1865079365079365,
+    "top5_agreement": 0.42063492063492064,
+    "top10_agreement": 0.5515873015873016,
+    "top5_set_overlap": 0.20476190476190476,
+    "kl_ref_to_conv": 3.266304406478234,
+    "cross_entropy_vs_ref": 6.669151719352142,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7553554159678827,
+    "logit_spearman": 0.6148905330182313,
+    "finite": true,
+    "top1_accuracy_true": 0.1349206349206349,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 6.6578604392565435
+   },
+   "teacher_forced_s": 22.01685256699966,
+   "s_per_token_batched": 0.08600333033984242,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 256.0,
+     "adds": 8192000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 256.0
+   },
+   "hash_evals_per_token_total": 256.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 2.754039033174911,
+     "rmse": 3.5072372041505866,
+     "relative_error": 0.817715127740926,
+     "cosine": 0.7555412344859834
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "lm_head: sampled256-splitmix",
+   "split": "dev",
+   "conv": {
+    "lm_head": "sampled256-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.15476190476190477,
+    "top5_agreement": 0.3888888888888889,
+    "top10_agreement": 0.5158730158730159,
+    "top5_set_overlap": 0.19920634920634922,
+    "kl_ref_to_conv": 3.3855679354554513,
+    "cross_entropy_vs_ref": 6.788415248329359,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.7597694805713987,
+    "logit_spearman": 0.6141098522767011,
+    "finite": true,
+    "top1_accuracy_true": 0.11904761904761904,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 6.316783805223404
+   },
+   "teacher_forced_s": 20.148964353999872,
+   "s_per_token_batched": 0.078706892007812,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 256.0,
+     "adds": 8192000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 256.0
+   },
+   "hash_evals_per_token_total": 256.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 2.7536452200201653,
+     "rmse": 3.503795202832494,
+     "relative_error": 0.8169126224116094,
+     "cosine": 0.7603449008503149
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "lm_head: sampled1024-sha256d",
+   "split": "dev",
+   "conv": {
+    "lm_head": "sampled1024-sha256d"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6071428571428571,
+    "top5_agreement": 0.8928571428571429,
+    "top10_agreement": 0.9484126984126984,
+    "top5_set_overlap": 0.6261904761904761,
+    "kl_ref_to_conv": 0.4462846725565988,
+    "cross_entropy_vs_ref": 3.8491319854305073,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9505485940914503,
+    "logit_spearman": 0.8879772742388011,
+    "finite": true,
+    "top1_accuracy_true": 0.3412698412698413,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.7153800791361182
+   },
+   "teacher_forced_s": 21.701286906999485,
+   "s_per_token_batched": 0.08477065198046674,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 1024.0,
+     "adds": 32768000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "sha256d": 1024.0
+   },
+   "hash_evals_per_token_total": 1024.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 1.0580112914495021,
+     "rmse": 1.3458967062852223,
+     "relative_error": 0.31379688143239104,
+     "cosine": 0.9505718248803874
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": true,
+   "primitive": "sha256d"
+  },
+  {
+   "name": "lm_head: sampled1024-splitmix",
+   "split": "dev",
+   "conv": {
+    "lm_head": "sampled1024-splitmix"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.6507936507936508,
+    "top5_agreement": 0.9246031746031746,
+    "top10_agreement": 0.9682539682539683,
+    "top5_set_overlap": 0.6222222222222222,
+    "kl_ref_to_conv": 0.43409171598018476,
+    "cross_entropy_vs_ref": 3.8369390288540925,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9499278851632189,
+    "logit_spearman": 0.8877325624017426,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.6395101067195643
+   },
+   "teacher_forced_s": 21.314651136000066,
+   "s_per_token_batched": 0.08326035600000026,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "hashes": 1024.0,
+     "adds": 32768000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {
+    "splitmix": 1024.0
+   },
+   "hash_evals_per_token_total": 1024.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 1.0593719461573743,
+     "rmse": 1.3482307721720483,
+     "relative_error": 0.31434107073973044,
+     "cosine": 0.949980018329279
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "sampled",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "splitmix",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": "splitmix"
+  },
+  {
+   "name": "lm_head: topk256",
+   "split": "dev",
+   "conv": {
+    "lm_head": "topk256"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.4166666666666667,
+    "top5_agreement": 0.7738095238095238,
+    "top10_agreement": 0.876984126984127,
+    "top5_set_overlap": 0.4936507936507937,
+    "kl_ref_to_conv": 1.3388055572255737,
+    "cross_entropy_vs_ref": 4.7416528700994816,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9572125706058324,
+    "logit_spearman": 0.8960177422857332,
+    "finite": true,
+    "top1_accuracy_true": 0.28174603174603174,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 4.613007500998851
+   },
+   "teacher_forced_s": 20.96710155100027,
+   "s_per_token_batched": 0.0819027404335948,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "adds": 8192000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 1.003489393568081,
+     "rmse": 1.2824237304373312,
+     "relative_error": 0.2989981069177584,
+     "cosine": 0.9572766970727788
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 256,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  },
+  {
+   "name": "lm_head: topk1024",
+   "split": "dev",
+   "conv": {
+    "lm_head": "topk1024"
+   },
+   "fidelity": {
+    "positions": 252,
+    "top1_agreement": 0.8690476190476191,
+    "top5_agreement": 1.0,
+    "top10_agreement": 1.0,
+    "top5_set_overlap": 0.8523809523809525,
+    "kl_ref_to_conv": 0.05423798491973121,
+    "cross_entropy_vs_ref": 3.457085297793639,
+    "ref_entropy": 3.4028473128739076,
+    "logit_cosine": 0.9947787136848601,
+    "logit_spearman": 0.9862869690855799,
+    "finite": true,
+    "top1_accuracy_true": 0.3968253968253968,
+    "ref_top1_accuracy_true": 0.40476190476190477,
+    "nll_true": 3.292213172300975
+   },
+   "teacher_forced_s": 20.763433551000162,
+   "s_per_token_batched": 0.08110716230859438,
+   "ops_per_token": {
+    "attn_qkv": {
+     "fp_macs": 115343360.0
+    },
+    "attn_scores": {
+     "fp_macs": 2883584.0
+    },
+    "attn_values": {
+     "fp_macs": 2883584.0
+    },
+    "attn_out": {
+     "fp_macs": 92274688.0
+    },
+    "mlp_in": {
+     "fp_macs": 507510784.0
+    },
+    "mlp_down": {
+     "fp_macs": 253755392.0
+    },
+    "lm_head": {
+     "adds": 32768000.0,
+     "fp_macs": 65536000.0
+    }
+   },
+   "hash_evals_per_token": {},
+   "hash_evals_per_token_total": 0.0,
+   "tensor_error": {
+    "lm_head": {
+     "mae": 0.3312802474965093,
+     "rmse": 0.4226406197249617,
+     "relative_error": 0.09853899472151656,
+     "cosine": 0.9947811361797336
+    }
+   },
+   "op": "lm_head",
+   "opconv": {
+    "kind": "topk",
+    "bits": 8,
+    "rounding": "rtn",
+    "samples": 1024,
+    "primitive": "sha256d",
+    "slots": 0
+   },
+   "uses_sha": false,
+   "primitive": null
+  }
+ ],
+ "selection_rule": " (fixed before running): for each operation class pick the\n  SHA-256d conversion with the highest dev top-1 agreement; candidates within\n  0.5 points count as tied and the one with less host work wins.\n",
+ "selected": {
+  "embedding": "hashed512000-sha256d",
+  "attn_qkv": "quant8-sha256d",
+  "attn_out": "quant8-sha256d",
+  "attn_scores": "quant8-sha256d",
+  "attn_values": "quant8-sha256d",
+  "softmax": "lut6-sha256d32",
+  "mlp_in": "quant8-sha256d",
+  "act": "lut4-sha256d8",
+  "mlp_down": "quant8-sha256d",
+  "lm_head": "quant8-sha256d"
+ }
+}
