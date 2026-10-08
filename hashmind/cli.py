@@ -159,6 +159,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--nonces", type=int, default=16)
     sp.add_argument("--no-sweep", action="store_true", help="skip feature-mode and tuple-size sweeps")
     hm_opts(sp); sp.set_defaults(fn=cmd_experiment)
+    from .frozen.cli import add_parsers
+    add_parsers(sub)
     sp = sub.add_parser("simulate"); sp.add_argument("hmmodel"); sim_opts(sp); sp.set_defaults(fn=cmd_simulate)
     sp = sub.add_parser("pipeline"); sp.add_argument("gguf"); sp.add_argument("-o", "--out")
     conv_opts(sp); plan_opts(sp); hm_opts(sp); sim_opts(sp); sp.set_defaults(fn=cmd_pipeline)
@@ -199,6 +201,14 @@ def cmd_phase4(argv: list[str]) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if len(argv) >= 2 and argv[0] == "experiment" and argv[1] == "phase5":
+        from .experiments.phase5 import run_phase5
+        p = argparse.ArgumentParser(prog="hashmind experiment phase5")
+        p.add_argument("gguf"); p.add_argument("-o", "--out", default="docs/results/phase5")
+        p.add_argument("--quick", action="store_true", help="tiny smoke run")
+        a = p.parse_args(argv[2:])
+        run_phase5(a.gguf, a.out, quick=a.quick)
+        return 0
     if len(argv) >= 2 and argv[0] == "experiment" and argv[1] in PHASE4_COMMANDS:
         return cmd_phase4(argv[1:])
     a = build_parser().parse_args(argv)
