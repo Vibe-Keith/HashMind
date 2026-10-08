@@ -1,0 +1,117 @@
+{
+ "environment": {
+  "hashmind_version": "0.2.0",
+  "git_commit": "abaeb7a4ea6f006d4d06efc805973d05fdd7a85b",
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.44-fc-v80-x86_64-with-glibc2.39",
+  "time_utc": "2026-10-08T16:25:50Z"
+ },
+ "rows": [
+  {
+   "backend": "CPU (this host, 1 core unless noted)",
+   "measured": true,
+   "primitive": "splitmix64",
+   "useful_values_per_s": 69325587.94031563,
+   "bytes_per_s": 277302351.76126254,
+   "latency_s": 0.0,
+   "power_w": 65.0,
+   "j_per_value": 9.376047420753264e-07
+  },
+  {
+   "backend": "CPU SHA-256d (python hashlib, 1 core)",
+   "measured": true,
+   "primitive": "sha256d",
+   "useful_values_per_s": 705096.0511310671,
+   "bytes_per_s": 2820384.2045242684,
+   "power_w": 65.0,
+   "j_per_value": 9.218602188415524e-05
+  },
+  {
+   "backend": "CPU BLAKE2b-400 (python hashlib, 1 core)",
+   "measured": true,
+   "primitive": "blake2b",
+   "useful_values_per_s": 22371490.7728782,
+   "bytes_per_s": 89485963.0915128
+  },
+  {
+   "backend": "CPU software Equihash (48,5), numpy reference",
+   "measured": true,
+   "primitive": "equihash",
+   "solves_per_s": 518.6278360486994,
+   "solutions_per_s": 363.03948523408957,
+   "values_per_s": 3267.355367106806,
+   "useful_values_per_s": 3267.355367106806
+  },
+  {
+   "backend": "CPU software Equihash (96,5), numpy reference",
+   "measured": true,
+   "primitive": "equihash",
+   "solves_per_s": 4.239401581467115,
+   "solutions_per_s": 4.239401581467115,
+   "values_per_s": 72.06982688494097,
+   "useful_values_per_s": 72.06982688494097
+  },
+  {
+   "backend": "CPU software Equihash (200,9), numpy reference",
+   "measured": true,
+   "primitive": "equihash",
+   "solves_per_s": 0.07928693997770314,
+   "solutions_per_s": 0.31714775991081257,
+   "values_per_s": 106.56164733003303,
+   "useful_values_per_s": 106.56164733003303
+  },
+  {
+   "backend": "S9 (BM1387), share floor",
+   "measured": false,
+   "primitive": "sha256d",
+   "hashes_per_s": 13500000000000.0,
+   "shares_per_s": 3143.21368932724,
+   "useful_values_per_s": 3143.21368932724,
+   "link_values_per_s": 129.43820224719101,
+   "jobs_per_s": 3143.21368932724,
+   "latency_s": 0.002,
+   "power_w": 1323.0,
+   "j_per_value": 0.420906795008,
+   "source": "docs/PHASE3.md (BM1387 ticket-mask floor, cgminer driver-gekko.c); power: vendor nominal"
+  },
+  {
+   "backend": "Z15 Pro Equihash (observed)",
+   "measured": false,
+   "primitive": "equihash(200,9)",
+   "solutions_per_s": 7.621333333333333,
+   "useful_values_per_s": 2560.768,
+   "bytes_per_s": 21446.432,
+   "latency_s": 0.05,
+   "power_w": 2780.0,
+   "j_per_value": 1.0856118164550634,
+   "source": "nominal rate/power: vendor listings (asicminervalue / manual.plus Z15 Pro manual); observed share rate: z15pro_miner.log in github.com/hashsource/hashsource_antminer_zx (third-party, unverified)"
+  },
+  {
+   "backend": "Z15 Pro Equihash (link_bound)",
+   "measured": false,
+   "primitive": "equihash(200,9)",
+   "solutions_per_s": 4442.075337597726,
+   "useful_values_per_s": 1492537.3134328357,
+   "bytes_per_s": 12500000.0,
+   "latency_s": 0.05,
+   "power_w": 2780.0,
+   "j_per_value": 0.0018626,
+   "source": "nominal rate/power: vendor listings (asicminervalue / manual.plus Z15 Pro manual); observed share rate: z15pro_miner.log in github.com/hashsource/hashsource_antminer_zx (third-party, unverified)"
+  },
+  {
+   "backend": "Z15 Pro Equihash (nominal)",
+   "measured": false,
+   "primitive": "equihash(200,9)",
+   "solutions_per_s": 840000.0,
+   "useful_values_per_s": 282240000.0,
+   "bytes_per_s": 2363760000.0,
+   "latency_s": 0.05,
+   "power_w": 2780.0,
+   "j_per_value": 9.849773242630385e-06,
+   "source": "nominal rate/power: vendor listings (asicminervalue / manual.plus Z15 Pro manual); observed share rate: z15pro_miner.log in github.com/hashsource/hashsource_antminer_zx (third-party, unverified)"
+  }
+ ],
+ "cpu_flops_per_s_measured": 338087530597.29584,
+ "electricity_usd_per_kwh_assumed": 0.15
+}
