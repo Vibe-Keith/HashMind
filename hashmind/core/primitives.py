@@ -202,7 +202,31 @@ class Pcg32Primitive(FeaturePrimitive):
         return out.reshape(len(payloads), n_evals, 2)
 
 
+class Blake2sPrimitive(FeaturePrimitive):
+    """BLAKE2s over payload | seed | nonce (Kadena-class ASIC hash). hashlib loop."""
+
+    name = "blake2s"
+    asic_native = True
+    cryptographic = True
+
+    def words(self, node_seed: int, payloads: np.ndarray, n_evals: int) -> np.ndarray:
+        out = np.empty((len(payloads), n_evals, 2), np.uint32)
+        sb = struct.pack("<I", int(node_seed) & 0xFFFFFFFF)
+        nb = [struct.pack("<I", n) for n in range(n_evals)]
+        for r, pl in enumerate(np.ascontiguousarray(payloads)):
+            base = hashlib.blake2s(pl.tobytes() + sb)
+            row = bytearray()
+            for b in nb:
+                h = base.copy()
+                h.update(b)
+                d = h.digest()
+                row += d[:8]
+            out[r] = np.frombuffer(bytes(row), ">u4").reshape(n_evals, 2)
+        return out
+
+
 PRIMITIVES: dict[str, type[FeaturePrimitive]] = {
+    "blake2s": Blake2sPrimitive,
     "sha256d": Sha256dPrimitive,
     "fnv1a": Fnv1aPrimitive,
     "splitmix": SplitMixPrimitive,
