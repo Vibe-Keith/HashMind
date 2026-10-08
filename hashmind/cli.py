@@ -201,6 +201,15 @@ def cmd_phase4(argv: list[str]) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if len(argv) >= 2 and argv[0] == "experiment" and argv[1] == "phase6":
+        from .experiments.phase6 import run_phase6
+        p = argparse.ArgumentParser(prog="hashmind experiment phase6")
+        p.add_argument("gguf"); p.add_argument("-o", "--out", default="docs/results/phase6")
+        p.add_argument("--backend", default="all", choices=["all", "sha256", "equihash", "heterogeneous"])
+        p.add_argument("--quick", action="store_true")
+        a = p.parse_args(argv[2:])
+        run_phase6(a.gguf, a.out, a.backend, quick=a.quick)
+        return 0
     if len(argv) >= 2 and argv[0] == "experiment" and argv[1] == "phase5":
         from .experiments.phase5 import run_phase5
         p = argparse.ArgumentParser(prog="hashmind experiment phase5")

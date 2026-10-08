@@ -95,7 +95,8 @@ def _npy(a: np.ndarray) -> bytes:
 
 def convert_frozen(gguf: str | Path, out: str | Path, weight_bits: int | None = 8, weight_rounding: str = "rtn",
                    conv: dict[str, OpConv] | None = None, group: int = 32,
-                   log: Callable[[str], None] | None = None, weights: FrozenWeights | None = None) -> dict[str, Any]:
+                   log: Callable[[str], None] | None = None, weights: FrozenWeights | None = None,
+                   execution_plan: str | None = None) -> dict[str, Any]:
     """``weights``: already-dequantized FrozenWeights of this same GGUF (avoids a second copy in memory)."""
     g = read_gguf(gguf)
     w = weights if weights is not None else FrozenWeights.from_gguf(g)
@@ -122,6 +123,7 @@ def convert_frozen(gguf: str | Path, out: str | Path, weight_bits: int | None = 
         "conversion": {"weight_bits": weight_bits, "weight_group": group, "weight_rounding": weight_rounding,
                        "ops": {k: asdict(conv.get(k, OpConv())) for k in OP_CLASSES},
                        "learned_parameters": 0, "calibration_data": None},
+        "execution_plan": json.loads(execution_plan) if execution_plan else None,
         "tensors": {k: {"shape": list(v.shape), "dtype": str(v.dtype),
                         "sha256": hashlib.sha256(np.ascontiguousarray(v).tobytes()).hexdigest()}
                     for k, v in sorted(tensors.items())},

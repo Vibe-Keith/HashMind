@@ -213,6 +213,9 @@ PRIMITIVES: dict[str, type[FeaturePrimitive]] = {
 def get_primitive(name: str | FeaturePrimitive) -> FeaturePrimitive:
     if isinstance(name, FeaturePrimitive):
         return name
+    if name == "equihash":  # lazy: Equihash emulation lives in hashmind.equihash
+        from ..equihash.primitive import EquihashPrimitive
+        return EquihashPrimitive()
     try:
         return PRIMITIVES[name]()
     except KeyError:

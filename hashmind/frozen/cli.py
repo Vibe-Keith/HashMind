@@ -38,9 +38,35 @@ def _prompts(gguf: str, path: str | None) -> tuple[SPMTokenizer, list[list[int]]
     return tok, [tok.encode(p) if isinstance(p, str) else list(p) for p in items]
 
 
+BACKEND_POLICIES = {
+    "cpu": {},
+    "sha256": {"hash_dither": "sha256_s9", "table_address": "sha256_s9", "threshold_event": "sha256_s9"},
+    "equihash": {"index_sampling": "equihash_z15", "table_address": "equihash_z15"},
+    "heterogeneous": {"hash_dither": "sha256_s9", "index_sampling": "equihash_z15", "table_address": "equihash_z15"},
+}
+
+
+def make_plan(gguf: str, conv: dict, backend: str):
+    from ..hetero.backends import default_backends
+    from ..hetero.plan import build_graph, plan
+
+    w = FrozenWeights.from_gguf(gguf)
+    B = default_backends()
+    ops = build_graph(w.hp, conv, w.layers[0]["w_in"].shape[0] // 2, w.head.shape[0])
+    forced = BACKEND_POLICIES[backend]
+    pl = plan(ops, B, "forced" if forced else "min_cost", forced or None)
+    return pl, pl.runtime_conv(conv, {k: b.primitive for k, b in B.items()}) if conv else conv
+
+
 def cmd_convert(a: argparse.Namespace) -> None:
     bits = None if a.weight_bits == "none" else int(a.weight_bits)
-    m = convert_frozen(a.gguf, a.out, bits, a.weight_rounding, _ops(a.op), log=print if a.verbose else None)
+    conv = _ops(a.op)
+    pl_json = None
+    if a.backend:
+        pl, conv = make_plan(a.gguf, conv, a.backend)
+        pl_json = pl.to_json()
+    m = convert_frozen(a.gguf, a.out, bits, a.weight_rounding, conv, log=print if a.verbose else None,
+                       execution_plan=pl_json)
     print(json.dumps({"out": a.out, "hmmodel_sha256": m["hmmodel_sha256"], "source": m["source"],
                       "conversion": m["conversion"]}, indent=1, default=str))
 
@@ -111,14 +137,50 @@ def cmd_analyze(a: argparse.Namespace) -> None:
                      indent=1, default=str))
 
 
+def cmd_hardware_info(a: argparse.Namespace) -> None:
+    from ..hetero.backends import ASIC_FACTS, EquihashZ15Backend, SHA256S9Backend
+
+    print(json.dumps({
+        "sha256_s9": {"exposes": "nonces whose SHA-256d meets the ticket mask (floor 2^-32): one value per share",
+                      "values_per_s_modelled": SHA256S9Backend().values_per_s, **ASIC_FACTS["s9"]},
+        "equihash_z15": {"exposes": "mining.submit with the full 1344-byte (200,9) solution, for shares only "
+                                    "(see docs/PHASE6_EQUIHASH_HARDWARE.md: PARTIAL_SOLUTION_ACCESS)",
+                         **{v: EquihashZ15Backend(v).values_per_s for v in ("observed", "link_bound", "nominal")},
+                         **ASIC_FACTS["z15pro"]},
+        "cpu": {"exposes": "everything"}}, indent=1, default=str))
+
+
+def cmd_analyze_backends(a: argparse.Namespace) -> None:
+    pl, conv = make_plan(a.gguf, _ops(a.op), a.backend)
+    print(pl.to_json())
+    print(json.dumps(pl.summary(), indent=1))
+
+
+def cmd_benchmark_backends(a: argparse.Namespace) -> None:
+    from ..experiments.phase6 import backend_matrix
+    from ..hetero.backends import CPUBackend
+
+    print(json.dumps(backend_matrix(CPUBackend()), indent=1, default=str))
+
+
 def add_parsers(sub: argparse._SubParsersAction) -> None:
     sp = sub.add_parser("convert-frozen", help="deterministic frozen conversion GGUF -> .hmmodel (no training)")
     sp.add_argument("gguf"); sp.add_argument("-o", "--out", required=True)
     sp.add_argument("--weight-bits", default="8", help="2|4|8|16|none")
     sp.add_argument("--weight-rounding", default="rtn", help="rtn | sha256d | splitmix (hash dither)")
     sp.add_argument("--op", action="append", help="op_class=label, e.g. mlp_in=quant8-sha256d (repeatable)")
+    sp.add_argument("--backend", choices=sorted(BACKEND_POLICIES),
+                    help="record a heterogeneous execution plan (artifact ops -> S9 / Equihash / CPU)")
     sp.add_argument("-v", "--verbose", action="store_true")
     sp.set_defaults(fn=cmd_convert)
+    sp = sub.add_parser("hardware-info", help="what each ASIC backend exposes (facts, sources, modelled rates)")
+    sp.set_defaults(fn=cmd_hardware_info)
+    sp = sub.add_parser("analyze-backends", help="operation graph + backend assignment for a GGUF")
+    sp.add_argument("gguf"); sp.add_argument("--backend", default="cpu", choices=sorted(BACKEND_POLICIES))
+    sp.add_argument("--op", action="append", help="op_class=label conversions to plan for")
+    sp.set_defaults(fn=cmd_analyze_backends)
+    sp = sub.add_parser("benchmark-backends", help="measured CPU vs modelled S9 / Z15 primitive rates")
+    sp.set_defaults(fn=cmd_benchmark_backends)
     sp = sub.add_parser("compare", help="original GGUF vs frozen .hmmodel on prompts")
     sp.add_argument("gguf"); sp.add_argument("hmmodel"); sp.add_argument("--prompts", help="JSON list of strings")
     sp.add_argument("--n-new", type=int, default=16); sp.set_defaults(fn=cmd_compare)
